@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Rohit Agarwal's Notes]]></title>
-  <link href="http://mindprince.github.io/atom.xml" rel="self"/>
-  <link href="http://mindprince.github.io/"/>
-  <updated>2013-05-28T21:22:59+05:30</updated>
-  <id>http://mindprince.github.io/</id>
+  <link href="http://notes.mindprince.in/atom.xml" rel="self"/>
+  <link href="http://notes.mindprince.in/"/>
+  <updated>2013-05-28T22:04:59+05:30</updated>
+  <id>http://notes.mindprince.in/</id>
   <author>
     <name><![CDATA[Rohit Agarwal]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Fixing UnicodeDecodeError in Python]]></title>
-    <link href="http://mindprince.github.io/2013/05/28/fixing-unicodedecodeerror-in-python.html"/>
+    <link href="http://notes.mindprince.in/2013/05/28/fixing-unicodedecodeerror-in-python.html"/>
     <updated>2013-05-28T21:09:00+05:30</updated>
-    <id>http://mindprince.github.io/2013/05/28/fixing-unicodedecodeerror-in-python</id>
+    <id>http://notes.mindprince.in/2013/05/28/fixing-unicodedecodeerror-in-python</id>
     <content type="html"><![CDATA[
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

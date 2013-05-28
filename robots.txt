@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://mindprince.github.io/sitemap.xml 
+Sitemap: http://notes.mindprince.in/sitemap.xml 
