@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Rohit Agarwal's Notes]]></title>
+  <link href="http://mindprince.github.io/atom.xml" rel="self"/>
+  <link href="http://mindprince.github.io/"/>
+  <updated>2013-05-28T18:56:35+05:30</updated>
+  <id>http://mindprince.github.io/</id>
+  <author>
+    <name><![CDATA[Rohit Agarwal]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+</feed>
