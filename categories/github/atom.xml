@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: github | Rohit Agarwal's Notes]]></title>
+  <link href="http://notes.mindprince.in/categories/github/atom.xml" rel="self"/>
+  <link href="http://notes.mindprince.in/"/>
+  <updated>2013-05-29T22:18:58+05:30</updated>
+  <id>http://notes.mindprince.in/</id>
+  <author>
+    <name><![CDATA[Rohit Agarwal]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress and Github: WTF is going on with the branches?]]></title>
+    <link href="http://notes.mindprince.in/2013/05/29/octopress-and-github-wtf-is-going-on-with-the-branches.html"/>
+    <updated>2013-05-29T19:50:00+05:30</updated>
+    <id>http://notes.mindprince.in/2013/05/29/octopress-and-github-wtf-is-going-on-with-the-branches</id>
+    <content type="html"><![CDATA[<p>This blog is powered by Octopress and hosted using Github Pages.
+When I checked the github repository for this blog, I found that there were two branches: <code>master</code> and <code>source</code>.
+But locally there was only one: <code>source</code>.
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>$ git branch
+</span><span class='line'>* source</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>To understand what was going on, I dug up the <a href="http://octopress.org/docs/deploying/github/">docs</a>.</p>
+
+<p>Initially when you clone the octopress repo from <a href="https://github.com/imathis/octopress">imathis/octopress</a>, the local branch is called <code>master</code> and the remote <code>imathis/octopress</code> is called <code>origin</code>.</p>
+
+<p>The <a href="https://github.com/imathis/octopress/blob/1bd2b62a80f3a7be330cb9600a2206a678e6863d/Rakefile#L315">magic</a> happens when you do <code>rake setup_github_pages</code>.</p>
+
+<p>It renames the remote pointing to <code>imathis/octopress</code> from <code>origin</code> to <code>octopress</code>; adds your Github Pages repository as the default <code>origin</code> remote and renames the <code>master</code> branch to <code>source</code>.
+It then creates a new directory <code>_deploy/</code> and initializes a new git repository there.
+<em>Finally, it adds your Github Pages repository as the default <code>origin</code> remote for this new repository also.</em></p>
+
+<p>Now, when you do <code>rake deploy</code>, the <code>master</code> branch of the git repo in <code>_deploy/</code> is pushed to the <code>master</code> branch of your Github Pages repo. And when you push the source repo to github, it becomes the <code>source</code> branch of your Github Pages repo.</p>
+
+<p>Here are some more details:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd octopress/  # THE_DIRECTORY_WHERE_YOU_CLONED_OCTOPRESS
+</span><span class='line'>$ git remote show origin
+</span><span class='line'>* remote origin
+</span><span class='line'>  Fetch URL: git@github.com:mindprince/mindprince.github.io.git
+</span><span class='line'>  Push  URL: git@github.com:mindprince/mindprince.github.io.git
+</span><span class='line'>  HEAD branch: master
+</span><span class='line'>  Remote branches:&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>master new (next fetch will store in remotes/origin)
+</span><span class='line'>source tracked
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  Local ref configured for &lsquo;git push&rsquo;:&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>source pushes to source (up to date)
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd octopress/_deploy/
+</span><span class='line'>$ git remote show origin
+</span><span class='line'>* remote origin
+</span><span class='line'>  Fetch URL: git@github.com:mindprince/mindprince.github.io.git
+</span><span class='line'>  Push  URL: git@github.com:mindprince/mindprince.github.io.git
+</span><span class='line'>  HEAD branch: master
+</span><span class='line'>  Remote branches:&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>master tracked
+</span><span class='line'>source new (next fetch will store in remotes/origin)
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  Local ref configured for &lsquo;git push&rsquo;:&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>master pushes to master (up to date)
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>To summarize, the two branches <code>source</code> and <code>master</code> on your Github Pages repo correspond to two separate git repositories: one in your <code>octopress/</code> directory and another in the <code>octopress/_deploy/</code> directory.</p>
+
+<p>The fact that separate git repositories on your local machine can act as different branches of the same repository on github is interesting. It can probably be misused to host more than five private repositories in <a href="https://github.com/plans">Github&rsquo;s Micro plan</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>
