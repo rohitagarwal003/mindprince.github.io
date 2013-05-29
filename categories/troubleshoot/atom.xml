@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: troubleshoot | Rohit Agarwal's Notes]]></title>
+  <link href="http://notes.mindprince.in/categories/troubleshoot/atom.xml" rel="self"/>
+  <link href="http://notes.mindprince.in/"/>
+  <updated>2013-05-29T18:21:32+05:30</updated>
+  <id>http://notes.mindprince.in/</id>
+  <author>
+    <name><![CDATA[Rohit Agarwal]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Fixing UnicodeDecodeError in Python]]></title>
+    <link href="http://notes.mindprince.in/2013/05/28/fixing-unicodedecodeerror-in-python.html"/>
+    <updated>2013-05-28T21:09:00+05:30</updated>
+    <id>http://notes.mindprince.in/2013/05/28/fixing-unicodedecodeerror-in-python</id>
+    <content type="html"><![CDATA[<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;a = &amp;ldquo;He said, “Hi, there.” She didn&amp;rsquo;t reply.&amp;rdquo;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;p&gt;type(a)</span>
+</span><span class='line'><span class="go">&lt;type &#39;str&#39;&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;p&gt;a</span>
+</span><span class='line'><span class="go">&amp;ldquo;He said, \xe2\x80\x9cHi, there.\xe2\x80\x9d She didn&amp;rsquo;t reply.&amp;rdquo;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;p&gt;print a</span>
+</span><span class='line'><span class="go">He said, “Hi, there.” She didn&amp;rsquo;t reply.</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote></blockquote></blockquote>
+
+<p><code>a</code> is a string encoded in utf-8.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;b = unicode(a)</span>
+</span><span class='line'><span class="go"> Traceback (most recent call last):</span>
+</span><span class='line'><span class="go">  File &amp;ldquo;&lt;stdin&gt;&amp;rdquo;, line 1, in &lt;module&gt;</span>
+</span><span class='line'><span class="go">  UnicodeDecodeError: &amp;lsquo;ascii&amp;rsquo; codec can&amp;rsquo;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote></blockquote></blockquote>
+
+<p>This didn&rsquo;t work because the default encoding in python in ascii. So, python was not able to decode <code>a</code> assuming ascii encoding.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;b = unicode(a, &amp;ldquo;utf-8&amp;rdquo;)&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;p&gt;type(b)</span>
+</span><span class='line'><span class="go">&lt;type &#39;unicode&#39;&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;p&gt;b</span>
+</span><span class='line'><span class="go">u&quot;He said, \u201cHi, there.\u201d She didn&amp;rsquo;t reply.&quot;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;p&gt;print b</span>
+</span><span class='line'><span class="go">He said, “Hi, there.” She didn&amp;rsquo;t reply.</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote></blockquote></blockquote>
+
+<p><code>b</code> is not a string. It is a unicode object. I think it has no encoding. You can encode it in different encodings.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;c = b.encode(&amp;ldquo;utf-8&amp;rdquo;)&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;p&gt;type&amp;copy;</span>
+</span><span class='line'><span class="go">&lt;type &#39;str&#39;&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;p&gt;c</span>
+</span><span class='line'><span class="go">&amp;ldquo;He said, \xe2\x80\x9cHi, there.\xe2\x80\x9d She didn&amp;rsquo;t reply.&amp;rdquo;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;p&gt;print c</span>
+</span><span class='line'><span class="go">He said, “Hi, there.” She didn&amp;rsquo;t reply.</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote></blockquote></blockquote>
+
+<p><code>c</code> is now same as <code>a</code>. It is a string encoded in utf-8. We created it by encoding a unicode object.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;d = a.encode(&amp;ldquo;utf-8&amp;rdquo;)</span>
+</span><span class='line'><span class="go"> Traceback (most recent call last):</span>
+</span><span class='line'><span class="go">  File &amp;ldquo;&lt;stdin&gt;&amp;rdquo;, line 1, in &lt;module&gt;</span>
+</span><span class='line'><span class="go">  UnicodeDecodeError: &amp;lsquo;ascii&amp;rsquo; codec can&amp;rsquo;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote></blockquote></blockquote>
+
+<p><code>a</code> is already encoded in utf-8. What happens here is that python first tries to decode <code>a</code> and then encode <code>a</code>. But decoding <code>a</code> fails because default encoding is assume to be ascii.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;e = a.decode(&amp;ldquo;utf-8&amp;rdquo;)&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;p&gt;type(e)</span>
+</span><span class='line'><span class="go">&lt;type &#39;unicode&#39;&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;p&gt;e</span>
+</span><span class='line'><span class="go">u&quot;He said, \u201cHi, there.\u201d She didn&amp;rsquo;t reply.&quot;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;p&gt;print e</span>
+</span><span class='line'><span class="go">He said, “Hi, there.” She didn&amp;rsquo;t reply.</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote></blockquote></blockquote>
+
+<p>Now, <code>e</code> is same as <code>b</code>. It is a unicode object.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;f = a.decode(&amp;ldquo;ascii&amp;rdquo;)</span>
+</span><span class='line'><span class="go"> Traceback (most recent call last):</span>
+</span><span class='line'><span class="go">  File &amp;ldquo;&lt;stdin&gt;&amp;rdquo;, line 1, in &lt;module&gt;</span>
+</span><span class='line'><span class="go">  UnicodeDecodeError: &amp;lsquo;ascii&amp;rsquo; codec can&amp;rsquo;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote></blockquote></blockquote>
+
+<p>Just to show what we have been saying earlier.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;g = b.encode(&amp;ldquo;ascii&amp;rdquo;)</span>
+</span><span class='line'><span class="go"> Traceback (most recent call last):</span>
+</span><span class='line'><span class="go">  File &amp;ldquo;&lt;stdin&gt;&amp;rdquo;, line 1, in &lt;module&gt;</span>
+</span><span class='line'><span class="go">  UnicodeEncodeError: &amp;lsquo;ascii&amp;rsquo; codec can&amp;rsquo;t encode character u&#39;\u201c&#39; in position 9: ordinal not in range(128)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote></blockquote></blockquote>
+
+<p>Note this is an <code>UnicodeEncodeError</code> and not a <code>UnicodeDecodeError</code>. We can&rsquo;t encode a unicode object which contains characters outside of ascii range to ascii encoding.</p>
+]]></content>
+  </entry>
+  
+</feed>
