@@ -4,7 +4,7 @@
   <title><![CDATA[Category: coding | Rohit Agarwal's Notes]]></title>
   <link href="http://notes.mindprince.in/categories/coding/atom.xml" rel="self"/>
   <link href="http://notes.mindprince.in/"/>
-  <updated>2013-05-29T22:18:58+05:30</updated>
+  <updated>2013-05-30T10:13:01+05:30</updated>
   <id>http://notes.mindprince.in/</id>
   <author>
     <name><![CDATA[Rohit Agarwal]]></name>
@@ -55,9 +55,9 @@
 </pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">&lt;/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="go">&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;b = unicode(a)</span>
-</span><span class='line'><span class="go"> Traceback (most recent call last):</span>
-</span><span class='line'><span class="go">  File &amp;ldquo;&lt;stdin&gt;&amp;rdquo;, line 1, in &lt;module&gt;</span>
-</span><span class='line'><span class="go">  UnicodeDecodeError: &amp;lsquo;ascii&amp;rsquo; codec can&amp;rsquo;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'><span class="gr">  File &amp;ldquo;&lt;stdin&gt;&amp;rdquo;, line 1, in &lt;module&gt;</span>
+</span><span class='line'><span class="gr">UnicodeDecodeError</span>: <span class="n">&amp;lsquo;ascii&amp;rsquo; codec can&amp;rsquo;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote></blockquote></blockquote>
 
 <p>This didn&rsquo;t work because the default encoding in python in ascii. So, python was not able to decode <code>a</code> assuming ascii encoding.</p>
@@ -127,9 +127,9 @@
 </pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">&lt;/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="go">&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;d = a.encode(&amp;ldquo;utf-8&amp;rdquo;)</span>
-</span><span class='line'><span class="go"> Traceback (most recent call last):</span>
-</span><span class='line'><span class="go">  File &amp;ldquo;&lt;stdin&gt;&amp;rdquo;, line 1, in &lt;module&gt;</span>
-</span><span class='line'><span class="go">  UnicodeDecodeError: &amp;lsquo;ascii&amp;rsquo; codec can&amp;rsquo;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'><span class="gr">  File &amp;ldquo;&lt;stdin&gt;&amp;rdquo;, line 1, in &lt;module&gt;</span>
+</span><span class='line'><span class="gr">UnicodeDecodeError</span>: <span class="n">&amp;lsquo;ascii&amp;rsquo; codec can&amp;rsquo;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote></blockquote></blockquote>
 
 <p><code>a</code> is already encoded in utf-8. What happens here is that python first tries to decode <code>a</code> and then encode <code>a</code>. But decoding <code>a</code> fails because default encoding is assume to be ascii.</p>
@@ -171,9 +171,9 @@
 </pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">&lt;/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="go">&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;f = a.decode(&amp;ldquo;ascii&amp;rdquo;)</span>
-</span><span class='line'><span class="go"> Traceback (most recent call last):</span>
-</span><span class='line'><span class="go">  File &amp;ldquo;&lt;stdin&gt;&amp;rdquo;, line 1, in &lt;module&gt;</span>
-</span><span class='line'><span class="go">  UnicodeDecodeError: &amp;lsquo;ascii&amp;rsquo; codec can&amp;rsquo;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'><span class="gr">  File &amp;ldquo;&lt;stdin&gt;&amp;rdquo;, line 1, in &lt;module&gt;</span>
+</span><span class='line'><span class="gr">UnicodeDecodeError</span>: <span class="n">&amp;lsquo;ascii&amp;rsquo; codec can&amp;rsquo;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote></blockquote></blockquote>
 
 <p>Just to show what we have been saying earlier.</p>
@@ -187,9 +187,9 @@
 </pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">&lt;/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="go">&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;g = b.encode(&amp;ldquo;ascii&amp;rdquo;)</span>
-</span><span class='line'><span class="go"> Traceback (most recent call last):</span>
-</span><span class='line'><span class="go">  File &amp;ldquo;&lt;stdin&gt;&amp;rdquo;, line 1, in &lt;module&gt;</span>
-</span><span class='line'><span class="go">  UnicodeEncodeError: &amp;lsquo;ascii&amp;rsquo; codec can&amp;rsquo;t encode character u&#39;\u201c&#39; in position 9: ordinal not in range(128)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'><span class="gr">  File &amp;ldquo;&lt;stdin&gt;&amp;rdquo;, line 1, in &lt;module&gt;</span>
+</span><span class='line'><span class="gr">UnicodeEncodeError</span>: <span class="n">&amp;lsquo;ascii&amp;rsquo; codec can&amp;rsquo;t encode character u&#39;\u201c&#39; in position 9: ordinal not in range(128)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote></blockquote></blockquote>
 
 <p>Note this is an <code>UnicodeEncodeError</code> and not a <code>UnicodeDecodeError</code>. We can&rsquo;t encode a unicode object which contains characters outside of ascii range to ascii encoding.</p>

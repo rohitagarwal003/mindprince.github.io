@@ -4,7 +4,7 @@
   <title><![CDATA[Rohit Agarwal's Notes]]></title>
   <link href="http://notes.mindprince.in/atom.xml" rel="self"/>
   <link href="http://notes.mindprince.in/"/>
-  <updated>2013-05-29T22:18:58+05:30</updated>
+  <updated>2013-05-30T10:13:01+05:30</updated>
   <id>http://notes.mindprince.in/</id>
   <author>
     <name><![CDATA[Rohit Agarwal]]></name>
@@ -135,9 +135,9 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-</span><span class='line'><span class="go"> Traceback (most recent call last):</span>
-</span><span class='line'><span class="go">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span>
-</span><span class='line'><span class="go">  UnicodeDecodeError: &#39;ascii&#39; codec can&#39;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">UnicodeDecodeError</span>: <span class="n">&#39;ascii&#39; codec can&#39;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -198,9 +198,9 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="go"> Traceback (most recent call last):</span>
-</span><span class='line'><span class="go">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span>
-</span><span class='line'><span class="go">  UnicodeDecodeError: &#39;ascii&#39; codec can&#39;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">UnicodeDecodeError</span>: <span class="n">&#39;ascii&#39; codec can&#39;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -236,9 +236,9 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;ascii&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="go"> Traceback (most recent call last):</span>
-</span><span class='line'><span class="go">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span>
-</span><span class='line'><span class="go">  UnicodeDecodeError: &#39;ascii&#39; codec can&#39;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">UnicodeDecodeError</span>: <span class="n">&#39;ascii&#39; codec can&#39;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -249,9 +249,9 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;ascii&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="go"> Traceback (most recent call last):</span>
-</span><span class='line'><span class="go">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span>
-</span><span class='line'><span class="go">  UnicodeEncodeError: &#39;ascii&#39; codec can&#39;t encode character u&#39;\u201c&#39; in position 9: ordinal not in range(128)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">UnicodeEncodeError</span>: <span class="n">&#39;ascii&#39; codec can&#39;t encode character u&#39;\u201c&#39; in position 9: ordinal not in range(128)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
