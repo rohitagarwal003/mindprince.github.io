@@ -4,7 +4,7 @@
   <title><![CDATA[Rohit Agarwal's Notes]]></title>
   <link href="http://notes.mindprince.in/atom.xml" rel="self"/>
   <link href="http://notes.mindprince.in/"/>
-  <updated>2013-06-01T12:14:20+05:30</updated>
+  <updated>2013-06-06T21:34:10+05:30</updated>
   <id>http://notes.mindprince.in/</id>
   <author>
     <name><![CDATA[Rohit Agarwal]]></name>
@@ -12,6 +12,85 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Search twitter from command-line]]></title>
+    <link href="http://notes.mindprince.in/2013/06/06/search-twitter-from-command-line.html"/>
+    <updated>2013-06-06T20:55:00+05:30</updated>
+    <id>http://notes.mindprince.in/2013/06/06/search-twitter-from-command-line</id>
+    <content type="html"><![CDATA[<p>Recently, I started learning the Twitter API.
+Twitter has deprecated <a href="https://dev.twitter.com/docs/api/1">v1</a> of its API, and the <a href="https://dev.twitter.com/docs/api/1.1">v1.1</a> of its API requires the use of <code>OAuth</code>.</p>
+
+<p>So, the first step is to download an <code>OAuth</code> library. I am going to use <a href="https://github.com/simplegeo/python-oauth2"><code>simplegeo/python-oauth2</code></a>.
+You can download it from <a href="https://pypi.python.org/pypi/oauth2/">pypi</a> and install it by executing <code>sudo ./setup.py install</code>.</p>
+
+<p>Here is a script which uses the API to search twitter from the terminal.</p>
+
+<div><script src='https://gist.github.com/5722371.js?file=twitter_search.py'></script>
+<noscript><pre><code>#! /usr/bin/env python
+
+# Search Twitter from command-line
+# Usage $ python twitter_search.py SEARCH TERMS
+
+# This uses API v1.1
+
+import sys
+import json
+import urllib
+import oauth2 as oauth
+
+consumer_key        = &quot;Enter Your Consumer Key Here.&quot;
+consumer_secret     = &quot;Enter Your Consumer Secret Here&quot;
+
+access_token_key    = &quot;Enter Your Access Token Here&quot;
+access_token_secret = &quot;Enter Your Access Token Secret Here&quot;
+
+# Let https://pypi.python.org/pypi/oauth2/ worry about oauth stuff.
+def oauth_req(url):
+
+    consumer    = oauth.Consumer(key=consumer_key, secret=consumer_secret)
+    token       = oauth.Token(key=access_token_key, secret=access_token_secret)
+    client      = oauth.Client(consumer, token)
+
+    resp, content = client.request(url, method=&quot;GET&quot;)
+    return content
+
+def search(term):
+    endpoint = &quot;https://api.twitter.com/1.1/search/tweets.json&quot;
+    url = endpoint + &quot;?&quot; + urllib.urlencode({'q':term})
+    search_results = oauth_req(url)
+    search_results_dict = json.loads(search_results)
+    for tweet in search_results_dict['statuses']:
+        print tweet['user']['name'] + &quot;:&quot;
+        print tweet['text']
+        print
+
+def main():
+    search_term = &quot;&quot;
+    for term in sys.argv[1:]:
+        search_term = search_term + &quot; &quot; + term
+    search(search_term)
+    
+if __name__ == '__main__':
+    main()</code></pre></noscript></div>
+
+
+<p>To use this script, you first need to create an application at <a href="https://dev.twitter.com/apps">https://dev.twitter.com/apps</a></p>
+
+<p>You will get your <code>consumer_key</code> and <code>consumer_secret</code> from there.
+You will also need to create an access token for your account.
+After doing that you will get your <code>access_token_key</code> and <code>access_token_secret</code>.</p>
+
+<p>Fill these four values in <code>twitter_search.py</code> and you are good to go.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python twitter_search.py SEARCH TERM<span class="o">(</span>S<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Octopress and Github: WTF is going on with the branches?]]></title>
