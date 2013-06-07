@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Octopress and Github: WTF is going on with the branches? - Rohit Agarwal's Notes</title>
+  <title>Sparse matrix multiplication using SQL - Rohit Agarwal's Notes</title>
   <meta name="author" content="Rohit Agarwal">
 
   
-  <meta name="description" content="Understanding the local and remote branches of your octopress blog deployed using github pages.">
+  <meta name="description" content="Sparse matrix multiplication in SQL.">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://notes.mindprince.in/2013/05/29/octopress-and-github-wtf-is-going-on-with-the-branches.html">
+  <link rel="canonical" href="http://notes.mindprince.in/2013/06/07/sparse-matrix-multiplication-using-sql.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Rohit Agarwal's Notes" type="application/atom+xml">
@@ -78,7 +78,7 @@
   
   <header>
     
-      <h1 class="entry-title">Octopress and Github: WTF is going on with the branches?</h1>
+      <h1 class="entry-title">Sparse matrix multiplication using SQL</h1>
     
     
       <p class="meta">
@@ -94,38 +94,33 @@
   
 
 
-<time datetime="2013-05-29T19:50:00+05:30" pubdate data-updated="true">May 29<span>th</span>, 2013</time>
+<time datetime="2013-06-07T21:57:00+05:30" pubdate data-updated="true">Jun 7<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>This blog is powered by Octopress and hosted using Github Pages.
-When I checked the github repository for this blog, I found that there were two branches: <code>master</code> and <code>source</code>.
-But locally there was only one: <code>source</code>.</p>
+<div class="entry-content"><p><code>a</code> and <code>b</code> are two sparse matrices. We want to perform <code>a * b</code> as shown below:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch
-</span><span class='line'>* source</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0   1   0   0   9                1   0   0                0   0   0
+</span><span class='line'>0   0   3   0   0       \ /      0   0   0      -----     0  21   0
+</span><span class='line'>0   0   0   2   0        *       0   7   0      -----     0   0   4
+</span><span class='line'>0   0   0   0   0       / \      0   0   2                0   0   0
+</span><span class='line'>                                 0   0   0</span></code></pre></td></tr></table></div></figure>
 
 
-<p>To understand what was going on, I dug up the <a href="http://octopress.org/docs/deploying/github/">docs</a>.</p>
+<p>We can represent a sparse matrix in a relational database as a table <code>matrix_name(row_num, col_num, value)</code>.
+Each non-zero cell in the matrix is represnted as a record (i, j, value) in the table.</p>
 
-<p>Initially when you clone the octopress repo from <a href="https://github.com/imathis/octopress">imathis/octopress</a>, the local branch is called <code>master</code> and the remote <code>imathis/octopress</code> is called <code>origin</code>.</p>
+<p>Here&rsquo;s how to do the multiplication. First, create the tables:</p>
 
-<p>The <a href="https://github.com/imathis/octopress/blob/1bd2b62a80f3a7be330cb9600a2206a678e6863d/Rakefile#L315">magic</a> happens when you do <code>rake setup_github_pages</code>.</p>
-
-<p>It renames the remote pointing to <code>imathis/octopress</code> from <code>origin</code> to <code>octopress</code>; adds your Github Pages repository as the default <code>origin</code> remote and renames the <code>master</code> branch to <code>source</code>.
-It then creates a new directory <code>_deploy/</code> and initializes a new git repository there.
-<em>Finally, it adds your Github Pages repository as the default <code>origin</code> remote for this new repository also.</em></p>
-
-<p>Now, when you do <code>rake deploy</code>, the <code>master</code> branch of the git repo in <code>_deploy/</code> is pushed to the <code>master</code> branch of your Github Pages repo. And when you push the source repo to github, it becomes the <code>source</code> branch of your Github Pages repo.</p>
-
-<p>Here are some more details:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -136,22 +131,27 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd octopress/  # THE_DIRECTORY_WHERE_YOU_CLONED_OCTOPRESS
-</span><span class='line'>$ git remote show origin
-</span><span class='line'>* remote origin
-</span><span class='line'>  Fetch URL: git@github.com:mindprince/mindprince.github.io.git
-</span><span class='line'>  Push  URL: git@github.com:mindprince/mindprince.github.io.git
-</span><span class='line'>  HEAD branch: master
-</span><span class='line'>  Remote branches:
-</span><span class='line'>    master new (next fetch will store in remotes/origin)
-</span><span class='line'>    source tracked
-</span><span class='line'>  Local ref configured for 'git push':
-</span><span class='line'>    source pushes to source (up to date)</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">a</span> <span class="p">(</span>
+</span><span class='line'><span class="n">row_num</span> <span class="nb">INT</span><span class="p">,</span>
+</span><span class='line'><span class="n">col_num</span> <span class="nb">INT</span><span class="p">,</span>
+</span><span class='line'><span class="n">value</span> <span class="nb">INT</span><span class="p">,</span>
+</span><span class='line'><span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">(</span><span class="n">row_num</span><span class="p">,</span> <span class="n">col_num</span><span class="p">)</span>
+</span><span class='line'><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">b</span> <span class="p">(</span>
+</span><span class='line'><span class="n">row_num</span> <span class="nb">INT</span><span class="p">,</span>
+</span><span class='line'><span class="n">col_num</span> <span class="nb">INT</span><span class="p">,</span>
+</span><span class='line'><span class="n">value</span> <span class="nb">INT</span><span class="p">,</span>
+</span><span class='line'><span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">(</span><span class="n">row_num</span><span class="p">,</span> <span class="n">col_num</span><span class="p">)</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
+<p>Next, insert values into the tables:</p>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -161,23 +161,41 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd octopress/_deploy/
-</span><span class='line'>$ git remote show origin
-</span><span class='line'>* remote origin
-</span><span class='line'>  Fetch URL: git@github.com:mindprince/mindprince.github.io.git
-</span><span class='line'>  Push  URL: git@github.com:mindprince/mindprince.github.io.git
-</span><span class='line'>  HEAD branch: master
-</span><span class='line'>  Remote branches:
-</span><span class='line'>    master tracked
-</span><span class='line'>    source new (next fetch will store in remotes/origin)
-</span><span class='line'>  Local ref configured for 'git push':
-</span><span class='line'>    master pushes to master (up to date)</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">a</span> <span class="k">VALUES</span>
+</span><span class='line'><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+</span><span class='line'><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+</span><span class='line'><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+</span><span class='line'><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">b</span> <span class="k">VALUES</span>
+</span><span class='line'><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+</span><span class='line'><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+</span><span class='line'><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>To summarize, the two branches <code>source</code> and <code>master</code> on your Github Pages repo correspond to two separate git repositories: one in your <code>octopress/</code> directory and another in the <code>octopress/_deploy/</code> directory.</p>
+<p>Finally, perform the multiplication using the following query:</p>
 
-<p>The fact that separate git repositories on your local machine can act as different branches of the same repository on github is interesting. It can probably be misused to host more than five private repositories in <a href="https://github.com/plans">Github&rsquo;s Micro plan</a>.</p>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="n">a</span><span class="p">.</span><span class="n">row_num</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">col_num</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">value</span><span class="o">*</span><span class="n">b</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
+</span><span class='line'><span class="k">WHERE</span> <span class="n">a</span><span class="p">.</span><span class="n">col_num</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">row_num</span>
+</span><span class='line'><span class="k">GROUP</span> <span class="k">BY</span> <span class="n">a</span><span class="p">.</span><span class="n">row_num</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">col_num</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">2</span><span class="o">|</span><span class="mi">2</span><span class="o">|</span><span class="mi">21</span>
+</span><span class='line'><span class="mi">3</span><span class="o">|</span><span class="mi">3</span><span class="o">|</span><span class="mi">4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To see how this query works, remember the formula for cell (i,j) of the product. It is the sum of a(i,k)*b(k,j) for all k.
+The <code>JOIN</code> condition <code>a.col_num = b.row_num</code> makes sure that both <code>a.value</code> and <code>b.value</code> has the same k.
+The <code>GROUP BY</code> clause makes sure that we sum over all k&rsquo;s.</p>
 </div>
 
 
@@ -200,12 +218,12 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
   
 
 
-<time datetime="2013-05-29T19:50:00+05:30" pubdate data-updated="true">May 29<span>th</span>, 2013</time>
+<time datetime="2013-06-07T21:57:00+05:30" pubdate data-updated="true">Jun 7<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/categories/git/'>git</a>, <a class='category' href='/categories/github/'>github</a>, <a class='category' href='/categories/octopress/'>octopress</a>
+    <a class='category' href='/categories/sql/'>sql</a>
   
 </span>
 
@@ -214,7 +232,7 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://notes.mindprince.in/2013/05/29/octopress-and-github-wtf-is-going-on-with-the-branches.html" data-via="mindprince" data-counturl="http://notes.mindprince.in/2013/05/29/octopress-and-github-wtf-is-going-on-with-the-branches.html" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://notes.mindprince.in/2013/06/07/sparse-matrix-multiplication-using-sql.html" data-via="mindprince" data-counturl="http://notes.mindprince.in/2013/06/07/sparse-matrix-multiplication-using-sql.html" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -227,10 +245,8 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2013/05/28/fixing-unicodedecodeerror-in-python.html" title="Previous Post: Fixing UnicodeDecodeError in Python">&laquo; Fixing UnicodeDecodeError in Python</a>
+        <a class="basic-alignment left" href="/2013/06/06/search-twitter-from-command-line.html" title="Previous Post: Search twitter from command-line">&laquo; Search twitter from command-line</a>
       
-      
-        <a class="basic-alignment right" href="/2013/06/06/search-twitter-from-command-line.html" title="Next Post: Search twitter from command-line">Search twitter from command-line &raquo;</a>
       
     </p>
   </footer>
@@ -342,8 +358,8 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://notes.mindprince.in/2013/05/29/octopress-and-github-wtf-is-going-on-with-the-branches.html';
-        var disqus_url = 'http://notes.mindprince.in/2013/05/29/octopress-and-github-wtf-is-going-on-with-the-branches.html';
+        var disqus_identifier = 'http://notes.mindprince.in/2013/06/07/sparse-matrix-multiplication-using-sql.html';
+        var disqus_url = 'http://notes.mindprince.in/2013/06/07/sparse-matrix-multiplication-using-sql.html';
         var disqus_script = 'embed.js';
       
     (function () {

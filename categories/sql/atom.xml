@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: sql | Rohit Agarwal's Notes]]></title>
+  <link href="http://notes.mindprince.in/categories/sql/atom.xml" rel="self"/>
+  <link href="http://notes.mindprince.in/"/>
+  <updated>2013-06-07T22:59:22+05:30</updated>
+  <id>http://notes.mindprince.in/</id>
+  <author>
+    <name><![CDATA[Rohit Agarwal]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Sparse matrix multiplication using SQL]]></title>
+    <link href="http://notes.mindprince.in/2013/06/07/sparse-matrix-multiplication-using-sql.html"/>
+    <updated>2013-06-07T21:57:00+05:30</updated>
+    <id>http://notes.mindprince.in/2013/06/07/sparse-matrix-multiplication-using-sql</id>
+    <content type="html"><![CDATA[<p><code>a</code> and <code>b</code> are two sparse matrices. We want to perform <code>a * b</code> as shown below:
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>0   1   0   0   9                1   0   0                0   0   0
+</span><span class='line'>0   0   3   0   0       \ /      0   0   0      &mdash;&mdash;&ndash;     0  21   0
+</span><span class='line'>0   0   0   2   0        *       0   7   0      &mdash;&mdash;&ndash;     0   0   4
+</span><span class='line'>0   0   0   0   0       / \      0   0   2                0   0   0&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>                             0   0   0
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>We can represent a sparse matrix in a relational database as a table <code>matrix_name(row_num, col_num, value)</code>.
+Each non-zero cell in the matrix is represnted as a record (i, j, value) in the table.</p>
+
+<p>Here&rsquo;s how to do the multiplication. First, create the tables:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">a</span> <span class="p">(</span>
+</span><span class='line'><span class="n">row_num</span> <span class="nb">INT</span><span class="p">,</span>
+</span><span class='line'><span class="n">col_num</span> <span class="nb">INT</span><span class="p">,</span>
+</span><span class='line'><span class="n">value</span> <span class="nb">INT</span><span class="p">,</span>
+</span><span class='line'><span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">(</span><span class="n">row_num</span><span class="p">,</span> <span class="n">col_num</span><span class="p">)</span>
+</span><span class='line'><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">b</span> <span class="p">(</span>
+</span><span class='line'><span class="n">row_num</span> <span class="nb">INT</span><span class="p">,</span>
+</span><span class='line'><span class="n">col_num</span> <span class="nb">INT</span><span class="p">,</span>
+</span><span class='line'><span class="n">value</span> <span class="nb">INT</span><span class="p">,</span>
+</span><span class='line'><span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">(</span><span class="n">row_num</span><span class="p">,</span> <span class="n">col_num</span><span class="p">)</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Next, insert values into the tables:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">a</span> <span class="k">VALUES</span>
+</span><span class='line'><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+</span><span class='line'><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+</span><span class='line'><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+</span><span class='line'><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">b</span> <span class="k">VALUES</span>
+</span><span class='line'><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+</span><span class='line'><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+</span><span class='line'><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Finally, perform the multiplication using the following query:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="n">a</span><span class="p">.</span><span class="n">row_num</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">col_num</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">value</span><span class="o">*</span><span class="n">b</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
+</span><span class='line'><span class="k">WHERE</span> <span class="n">a</span><span class="p">.</span><span class="n">col_num</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">row_num</span>
+</span><span class='line'><span class="k">GROUP</span> <span class="k">BY</span> <span class="n">a</span><span class="p">.</span><span class="n">row_num</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">col_num</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="mi">2</span><span class="o">|</span><span class="mi">2</span><span class="o">|</span><span class="mi">21</span>
+</span><span class='line'><span class="mi">3</span><span class="o">|</span><span class="mi">3</span><span class="o">|</span><span class="mi">4</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>To see how this query works, remember the formula for cell (i,j) of the product. It is the sum of a(i,k)*b(k,j) for all k.
+The <code>JOIN</code> condition <code>a.col_num = b.row_num</code> makes sure that both <code>a.value</code> and <code>b.value</code> has the same k.
+The <code>GROUP BY</code> clause makes sure that we sum over all k&rsquo;s.</p>
+]]></content>
+  </entry>
+  
+</feed>
