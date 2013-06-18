@@ -4,7 +4,7 @@
   <title><![CDATA[Rohit Agarwal's Notes]]></title>
   <link href="http://notes.mindprince.in/atom.xml" rel="self"/>
   <link href="http://notes.mindprince.in/"/>
-  <updated>2013-06-07T22:59:22+05:30</updated>
+  <updated>2013-06-19T01:42:20+05:30</updated>
   <id>http://notes.mindprince.in/</id>
   <author>
     <name><![CDATA[Rohit Agarwal]]></name>
@@ -12,6 +12,33 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Sharing an internet connection from your computer to your mobile device]]></title>
+    <link href="http://notes.mindprince.in/2013/06/19/sharing-an-internet-connection-from-your-computer-to-your-mobile-device.html"/>
+    <updated>2013-06-19T00:13:00+05:30</updated>
+    <id>http://notes.mindprince.in/2013/06/19/sharing-an-internet-connection-from-your-computer-to-your-mobile-device</id>
+    <content type="html"><![CDATA[<p>Recently, I explored how to share an internet connection from computers running Windows or Mac OS X or Linux to mobile devices running iOS or Android.</p>
+
+<p>Here&rsquo;s the summary:</p>
+
+<p>Unrooted Android devices don&rsquo;t support ad-hoc mode (<a href="https://code.google.com/p/android/issues/detail?id=82">https://code.google.com/p/android/issues/detail?id=82</a>) i.e. they don&rsquo;t see ad-hoc WiFi networks.</p>
+
+<p>iOS devices support ad-hoc mode i.e. they can see ad-hoc WiFi networks.</p>
+
+<p>Now, if you are on a Mac and you want to share your internet connection, you follow the steps outlined here: <a href="http://support.apple.com/kb/PH3853">http://support.apple.com/kb/PH3853</a>, this creates a WiFi network in Infrastructure mode which is visible to both iOS and Android devices and you can access the internet on these devices using this network.</p>
+
+<p>You can create an ad-hoc network on a Mac by following these steps: <a href="http://support.apple.com/kb/PH3771">http://support.apple.com/kb/PH3771</a>. But this network is not visible to unrooted Android devices and iOS devices were not able to access the internet even after connecting to this network. So, don&rsquo;t do this.</p>
+
+<p>If you are on a PC (Windows 7 or later), you can use <a href="http://www.connectify.me/hotspot/">Connectify Hotspot</a> to create a hotspot in Access Point Mode which is visible to both Android and iOS devices and access the internet on these devices using this hotspot. However, if you are on Windows XP or Vista, your Connectify hotspot will operate in ad-hoc mode and will not work with unrooted Android devices [<a href="http://support.connectify.me/entries/20307637-Does-Connectify-Hotspot-run-on-Windows-Vista-or-Windows-XP-">1</a>] [<a href="http://support.connectify.me/entries/20316691-access-point-mode-vs-ad-hoc-mode">2</a>].</p>
+
+<p>If you don&rsquo;t want to use Connectify Hotspot, you can create an ad-hoc network by following these steps: <a href="http://windows.microsoft.com/en-in/windows7/set-up-a-computer-to-computer-ad-hoc-network">http://windows.microsoft.com/en-in/windows7/set-up-a-computer-to-computer-ad-hoc-network</a>. This network is not visible to unrooted Android devices but is visible to iOS devices and they can access the internet using this network.</p>
+
+<p>If you are on a PC running Ubuntu, you can create an ad-hoc network by going to the <code>Network</code> menu and then clicking <code>Create New Wireless Network</code>. This network is not visible to unrooted Android devices but is visible to iOS devices and they can access the internet using this network.</p>
+
+<p>I don&rsquo;t know of a way to create a WiFi network on an Ubuntu machine which is visible to unrooted Android devices.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Sparse matrix multiplication using SQL]]></title>
