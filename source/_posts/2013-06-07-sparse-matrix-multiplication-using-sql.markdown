@@ -3,8 +3,8 @@ layout: post
 title: "Sparse matrix multiplication using SQL"
 date: 2013-06-07 21:57
 comments: true
-description: "Sparse matrix multiplication in SQL."
-categories: sql
+description: "How to multiply two sparse matrices using relational databases and SQL."
+categories: [sql, how-to]
 ---
 
 `a` and `b` are two sparse matrices. We want to perform `a * b` as shown below:

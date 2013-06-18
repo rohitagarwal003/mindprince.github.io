@@ -4,7 +4,7 @@ title: "Fixing UnicodeDecodeError in Python"
 date: 2013-05-28 21:09
 comments: true
 categories: [troubleshoot, coding, python]
-description: "Unicode, string encodings, utf-8 and ascii in python."
+description: "Understanding unicode, string encodings, utf-8 and ascii in python."
 ---
 {% codeblock lang:pycon %}
 >>> a = "He said, “Hi, there.” She didn't reply."
