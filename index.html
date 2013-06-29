@@ -9,7 +9,7 @@
   <meta name="author" content="Rohit Agarwal">
 
   
-  <meta name="description" content="Recently, I explored how to share an internet connection from computers running Windows or Mac OS X or Linux to mobile devices running iOS or Android &hellip;">
+  <meta name="description" content="File handling is a very common task. Here are snippets of code I use to perform various file handling operations in Python, Java and C. Reading a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -75,6 +75,144 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/06/29/file-handling-in-python-java-and-c.html">File handling in Python, Java and C</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-29T17:30:00+05:30" pubdate data-updated="true">Jun 29<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>File handling is a very <a href="/categories/common-tasks/">common task</a>. Here are snippets of code I use to perform various file handling operations in Python, Java and C.</p>
+
+<h2>Reading a file in Python</h2>
+
+<h3>Reading a file at once</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">text</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span><span class='line'>    <span class="c"># text is a string which contains all the text in the file.</span>
+</span><span class='line'>    <span class="c"># this may cause problems with very big files.</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># do something with text</span>
+</span><span class='line'>    <span class="k">print</span> <span class="n">text</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Reading a file line by line</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>        <span class="c"># line is a string </span>
+</span><span class='line'>        <span class="c"># a newline character (\n) is present at the end of the string</span>
+</span><span class='line'>        <span class="c"># and is only omitted on the last line of the file if the</span>
+</span><span class='line'>        <span class="c"># file doesn&#39;t end in a newline.</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c"># do something with line</span>
+</span><span class='line'>        <span class="k">print</span> <span class="n">line</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Reading a file word by word</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+</span><span class='line'>            <span class="c"># do something with word</span>
+</span><span class='line'>            <span class="k">print</span> <span class="n">word</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Reading a file character by character</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">character</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">character</span><span class="p">:</span>
+</span><span class='line'>            <span class="c"># do something with character</span>
+</span><span class='line'>            <span class="k">print</span> <span class="n">character</span>
+</span><span class='line'>        <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>            <span class="c"># end-of-file reached</span>
+</span><span class='line'>            <span class="k">break</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Writing a file in Python</h2>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>    <span class="c"># write to the file using f.write()</span>
+</span><span class='line'>    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;Whatever you want to write.</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;Really, anything.</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2013/06/29/file-handling-in-python-java-and-c.html">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -692,6 +830,10 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/06/29/file-handling-in-python-java-and-c.html">File handling in Python, Java and C</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/06/19/sharing-an-internet-connection-from-your-computer-to-your-mobile-device.html">Sharing an internet connection from your computer to your mobile device</a>
       </li>
     
@@ -705,10 +847,6 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
     
       <li class="post">
         <a href="/2013/05/29/octopress-and-github-wtf-is-going-on-with-the-branches.html">Octopress and Github: WTF is going on with the branches?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/05/28/fixing-unicodedecodeerror-in-python.html">Fixing UnicodeDecodeError in Python</a>
       </li>
     
   </ul>
