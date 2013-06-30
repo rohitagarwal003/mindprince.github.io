@@ -132,6 +132,7 @@ public class FileCC {
             // do something with the character.
             System.out.print(character);
         }
+        br.close();
     }
 }
 {% endcodeblock %}
