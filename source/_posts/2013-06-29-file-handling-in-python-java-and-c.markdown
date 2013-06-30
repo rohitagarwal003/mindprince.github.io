@@ -81,36 +81,48 @@ import java.util.Scanner;
 
 public class FileLL {
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner s = new Scanner(new BufferedReader(new FileReader("/path/to/file/filename.txt")));
-        while (s.hasNext()) {
-            String line = s.nextLine();
-            // line does not contain a newline (\n) at the end.
+        Scanner s = null;
+        try {
+            s = new Scanner(new BufferedReader(new FileReader("/path/to/file/filename.txt")));
+            while (s.hasNext()) {
+                String line = s.nextLine();
+                // line does not contain a newline (\n) at the end.
 
-            // do something with line
-            System.out.print(line);
+                // do something with line
+                System.out.print(line);
+            }
+        } finally {
+            if (s != null) {
+                s.close();
+            }
         }
-        s.close();
     }
 }
 {% endcodeblock %}
 
 ### Reading a file word by word
 {% codeblock lang:java %}
-import java.io.FileReader;
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class FileWW {
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner s = new Scanner(new BufferedReader(new FileReader("/path/to/file/filename.txt")));
-        while (s.hasNext()) {
-            String word = s.next();
+        Scanner s = null;
+        try {
+            s = new Scanner(new BufferedReader(new FileReader("/path/to/file/filename.txt")));
+            while (s.hasNext()) {
+                String word = s.next();
 
-            // do something with the word
-            System.out.println(word);
+                // do something with the word
+                System.out.println(word);
+            }
+        } finally {
+            if (s != null) {
+                s.close();
+            }
         }
-        s.close();
     }
 }
 {% endcodeblock %}
@@ -124,15 +136,21 @@ import java.io.IOException;
 
 public class FileCC {
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        BufferedReader br = new BufferedReader(new FileReader("/path/to/file/filename.txt"));
-        int ch;
-        while ((ch = br.read()) != -1) {
-            char character = (char) ch;
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader("/path/to/file/filename.txt"));
+            int ch;
+            while ((ch = br.read()) != -1) {
+                char character = (char) ch;
 
-            // do something with the character.
-            System.out.print(character);
+                // do something with the character.
+                System.out.print(character);
+            }
+        } finally {
+            if (br != null) {
+                br.close();
+            }
         }
-        br.close();
     }
 }
 {% endcodeblock %}
