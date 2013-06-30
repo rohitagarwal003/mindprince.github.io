@@ -9,7 +9,7 @@
   <meta name="author" content="Rohit Agarwal">
 
   
-  <meta name="description" content="File handling is a very common task. Here are snippets of code I use to perform various file handling operations in Python, Java and C. Reading a &hellip;">
+  <meta name="description" content="Handling command-line arguments is a very common task. Here are snippets of code I use to handle command line arguments in Python, Java and C. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,133 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/2013/06/30/command-line-arguments-in-python-java-and-c.html">Command-line arguments in Python, Java and C</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-30T17:02:00+05:30" pubdate data-updated="true">Jun 30<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Handling command-line arguments is a very <a href="/categories/common-tasks/">common task</a>. Here are snippets of code I use to handle command line arguments in Python, Java and C.</p>
+
+<h2>Command-line arguments in Python</h2>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="c"># sys.argv is a list of strings.</span>
+</span><span class='line'><span class="c"># argv[0] is the script name</span>
+</span><span class='line'><span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span>
+</span><span class='line'>    <span class="c"># do something with the argument</span>
+</span><span class='line'>    <span class="k">print</span> <span class="n">arg</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">$</span> python cmd_line_args.py Position1 Position2 Position3
+</span><span class='line'><span class="go">cmd_line_args.py</span>
+</span><span class='line'><span class="go">Position1</span>
+</span><span class='line'><span class="go">Position2</span>
+</span><span class='line'><span class="go">Position3</span>
+</span><span class='line'><span class="gp">$</span> python cmd_line_args.py <span class="s2">&quot;Position1 Position2 Position3&quot;</span>
+</span><span class='line'><span class="go">cmd_line_args.py</span>
+</span><span class='line'><span class="go">Position1 Position2 Position3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="c"># sys.argv is a list of strings.</span>
+</span><span class='line'><span class="c"># argv[0] is the script name</span>
+</span><span class='line'><span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+</span><span class='line'>    <span class="c"># if you are sure that the arguments are integers</span>
+</span><span class='line'>    <span class="n">arg_int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+</span><span class='line'>    <span class="c"># do something with the argument</span>
+</span><span class='line'>    <span class="k">print</span> <span class="n">arg_int</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">$</span> python cmd_line_args.py 2013 6 30
+</span><span class='line'><span class="go">2013</span>
+</span><span class='line'><span class="go">6</span>
+</span><span class='line'><span class="go">30</span>
+</span><span class='line'><span class="gp">$</span> python cmd_line_args.py Position1 Position2 Position3
+</span><span class='line'><span class="go">Traceback (most recent call last):</span>
+</span><span class='line'><span class="go">  File &quot;cmd_line_args.py&quot;, line 6, in &lt;module&gt;</span>
+</span><span class='line'><span class="go">    arg_int = int(arg)</span>
+</span><span class='line'><span class="go">ValueError: invalid literal for int() with base 10: &#39;Position1&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference: <a href="http://docs.python.org/2/tutorial/interpreter.html#argument-passing">Python Tutorial</a>.</p>
+
+<p>For more advanced needs, you can try the <a href="http://docs.python.org/2/howto/argparse.html">argparse module</a>.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2013/06/30/command-line-arguments-in-python-java-and-c.html">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/2013/06/29/file-handling-in-python-java-and-c.html">File handling in Python, Java and C</a></h1>
     
     
@@ -140,7 +267,7 @@
 <span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
 </span><span class='line'>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
-</span><span class='line'>        <span class="c"># line is a string </span>
+</span><span class='line'>        <span class="c"># line is a string</span>
 </span><span class='line'>        <span class="c"># a newline character (\n) is present at the end of the string</span>
 </span><span class='line'>        <span class="c"># and is only omitted on the last line of the file if the</span>
 </span><span class='line'>        <span class="c"># file doesn&#39;t end in a newline.</span>
@@ -830,6 +957,10 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/06/30/command-line-arguments-in-python-java-and-c.html">Command-line arguments in Python, Java and C</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/06/29/file-handling-in-python-java-and-c.html">File handling in Python, Java and C</a>
       </li>
     
@@ -843,10 +974,6 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
     
       <li class="post">
         <a href="/2013/06/06/search-twitter-from-command-line.html">Search twitter from command-line</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/05/29/octopress-and-github-wtf-is-going-on-with-the-branches.html">Octopress and Github: WTF is going on with the branches?</a>
       </li>
     
   </ul>

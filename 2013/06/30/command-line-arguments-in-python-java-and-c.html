@@ -1,0 +1,627 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Command-line arguments in Python, Java and C - Rohit Agarwal's Notes</title>
+  <meta name="author" content="Rohit Agarwal">
+
+  
+  <meta name="description" content="How to handle command-line arguments in python, java and c.">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://notes.mindprince.in/2013/06/30/command-line-arguments-in-python-java-and-c.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Rohit Agarwal's Notes" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41274493-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Rohit Agarwal's Notes</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:notes.mindprince.in" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Command-line arguments in Python, Java and C</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-30T17:02:00+05:30" pubdate data-updated="true">Jun 30<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Handling command-line arguments is a very <a href="/categories/common-tasks/">common task</a>. Here are snippets of code I use to handle command line arguments in Python, Java and C.</p>
+
+<h2>Command-line arguments in Python</h2>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="c"># sys.argv is a list of strings.</span>
+</span><span class='line'><span class="c"># argv[0] is the script name</span>
+</span><span class='line'><span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span>
+</span><span class='line'>    <span class="c"># do something with the argument</span>
+</span><span class='line'>    <span class="k">print</span> <span class="n">arg</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">$</span> python cmd_line_args.py Position1 Position2 Position3
+</span><span class='line'><span class="go">cmd_line_args.py</span>
+</span><span class='line'><span class="go">Position1</span>
+</span><span class='line'><span class="go">Position2</span>
+</span><span class='line'><span class="go">Position3</span>
+</span><span class='line'><span class="gp">$</span> python cmd_line_args.py <span class="s2">&quot;Position1 Position2 Position3&quot;</span>
+</span><span class='line'><span class="go">cmd_line_args.py</span>
+</span><span class='line'><span class="go">Position1 Position2 Position3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="c"># sys.argv is a list of strings.</span>
+</span><span class='line'><span class="c"># argv[0] is the script name</span>
+</span><span class='line'><span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+</span><span class='line'>    <span class="c"># if you are sure that the arguments are integers</span>
+</span><span class='line'>    <span class="n">arg_int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+</span><span class='line'>    <span class="c"># do something with the argument</span>
+</span><span class='line'>    <span class="k">print</span> <span class="n">arg_int</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">$</span> python cmd_line_args.py 2013 6 30
+</span><span class='line'><span class="go">2013</span>
+</span><span class='line'><span class="go">6</span>
+</span><span class='line'><span class="go">30</span>
+</span><span class='line'><span class="gp">$</span> python cmd_line_args.py Position1 Position2 Position3
+</span><span class='line'><span class="go">Traceback (most recent call last):</span>
+</span><span class='line'><span class="go">  File &quot;cmd_line_args.py&quot;, line 6, in &lt;module&gt;</span>
+</span><span class='line'><span class="go">    arg_int = int(arg)</span>
+</span><span class='line'><span class="go">ValueError: invalid literal for int() with base 10: &#39;Position1&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference: <a href="http://docs.python.org/2/tutorial/interpreter.html#argument-passing">Python Tutorial</a>.</p>
+
+<p>For more advanced needs, you can try the <a href="http://docs.python.org/2/howto/argparse.html">argparse module</a>.</p>
+
+<!-- more -->
+
+
+<h2>Command-line arguments in Java</h2>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CommandLineArguments</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="c1">// args is an array of Strings</span>
+</span><span class='line'>        <span class="c1">// You can access various positional arguments using</span>
+</span><span class='line'>        <span class="c1">// args[0], args[1], etc. Or you can iterate over them.</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">argument</span> <span class="o">:</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="c1">// do something with the argument</span>
+</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">argument</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">$</span> javac CommandLineArguments.java
+</span><span class='line'><span class="gp">$</span> java CommandLineArguments Position1 Position2 Position3
+</span><span class='line'><span class="go">Position1</span>
+</span><span class='line'><span class="go">Position2</span>
+</span><span class='line'><span class="go">Position3</span>
+</span><span class='line'><span class="gp">$</span> java CommandLineArguments <span class="s2">&quot;Position1 Position2 Position3&quot;</span>
+</span><span class='line'><span class="go">Position1 Position2 Position3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CommandLineArgumentsInt</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="c1">// args is an array of Strings</span>
+</span><span class='line'>        <span class="c1">// You can access various positional arguments using</span>
+</span><span class='line'>        <span class="c1">// args[0], args[1], etc. Or you can iterate over them.</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">argument</span> <span class="o">:</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="c1">// If you are sure that the arguments are integers</span>
+</span><span class='line'>            <span class="kt">int</span> <span class="n">arg</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">argument</span><span class="o">);</span>
+</span><span class='line'>            <span class="c1">// do something with the argument</span>
+</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">arg</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">$</span> javac CommandLineArgumentsInt.java
+</span><span class='line'><span class="gp">$</span> java CommandLineArgumentsInt 2013 6 30
+</span><span class='line'><span class="go">2013</span>
+</span><span class='line'><span class="go">6</span>
+</span><span class='line'><span class="go">30</span>
+</span><span class='line'><span class="gp">$</span> java CommandLineArgumentsInt Position1 Position2 Position3
+</span><span class='line'><span class="go">Exception in thread &quot;main&quot; java.lang.NumberFormatException: For input string: &quot;Position1&quot;</span>
+</span><span class='line'><span class="go"> at java.lang.NumberFormatException.forInputString(NumberFormatException.java:48)</span>
+</span><span class='line'><span class="go"> at java.lang.Integer.parseInt(Integer.java:449)</span>
+</span><span class='line'><span class="go"> at java.lang.Integer.parseInt(Integer.java:499)</span>
+</span><span class='line'><span class="go"> at CommandLineArgumentsInt.main(CommandLineArgumentsInt.java:8)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reference: <a href="http://docs.oracle.com/javase/tutorial/essential/environment/cmdLineArgs.html">The Java Tutorial</a>.</p>
+
+<p>For more advanced needs, see <a href="http://stackoverflow.com/questions/367706/is-there-a-good-command-line-argument-parser-for-java">this Stack Overflow question</a>.</p>
+
+<h2>Command-line arguments in C</h2>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &lt;stdio.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// argc refers to the number of arguments passed.</span>
+</span><span class='line'>    <span class="c1">// argv is an array of char pointers which contain the passed arguments.</span>
+</span><span class='line'>    <span class="c1">// argv[0] is the path and name of the program itself</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">argc</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// do something whith the argument</span>
+</span><span class='line'>        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">$</span> cc cmd_line_args.c
+</span><span class='line'><span class="gp">$</span> ./a.out Position1 Position2 Position3
+</span><span class='line'><span class="go">./a.out</span>
+</span><span class='line'><span class="go">Position1</span>
+</span><span class='line'><span class="go">Position2</span>
+</span><span class='line'><span class="go">Position3</span>
+</span><span class='line'><span class="gp">$</span> ./a.out <span class="s2">&quot;Position1 Position2 Position3&quot;</span>
+</span><span class='line'><span class="go">./a.out</span>
+</span><span class='line'><span class="go">Position1 Position2 Position3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &lt;stdio.h&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;stdlib.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// argc refers to the number of arguments passed.</span>
+</span><span class='line'>    <span class="c1">// argv is an array of char pointers which contain the passed arguments.</span>
+</span><span class='line'>    <span class="c1">// argv[0] is the path and name of the program itself</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">argc</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// If you are sure that the arguments are integers</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">argument</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// do something whith the argument</span>
+</span><span class='line'>        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">argument</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">$</span> cc cmd_line_args.c
+</span><span class='line'><span class="gp">$</span> ./a.out 2013 6 30
+</span><span class='line'><span class="go">2013</span>
+</span><span class='line'><span class="go">6</span>
+</span><span class='line'><span class="go">30</span>
+</span><span class='line'><span class="gp">$</span> ./a.out Position1 Position2 Position3
+</span><span class='line'><span class="go">0</span>
+</span><span class='line'><span class="go">0</span>
+</span><span class='line'><span class="go">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For more advanced needs, use <a href="http://www.gnu.org/software/libc/manual/html_node/Getopt.html">getopt</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Rohit Agarwal</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-30T17:02:00+05:30" pubdate data-updated="true">Jun 30<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/c/'>c</a>, <a class='category' href='/categories/common-tasks/'>common-tasks</a>, <a class='category' href='/categories/java/'>java</a>, <a class='category' href='/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://notes.mindprince.in/2013/06/30/command-line-arguments-in-python-java-and-c.html" data-via="mindprince" data-counturl="http://notes.mindprince.in/2013/06/30/command-line-arguments-in-python-java-and-c.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2013/06/29/file-handling-in-python-java-and-c.html" title="Previous Post: File handling in Python, Java and C">&laquo; File handling in Python, Java and C</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+	<h1>About Me</h1>
+	<p>Hello, I'm Rohit Agarwal. I'm a software developer.
+	   This is where I note my experiences while playing with new (and old) technologies.
+	</p>
+	<p>I also blog <a href="http://blog.mindprince.in">here</a>.
+	</p>
+	<p>You can find me on
+	   <a href="https://twitter.com/mindprince">Twitter</a>,
+	   <a href="http://in.linkedin.com/in/rohitagarwal003">LinkedIn</a> and
+	   <a href="https://plus.google.com/110953348444823955475?rel=author">Google+</a>.
+	</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/06/30/command-line-arguments-in-python-java-and-c.html">Command-line arguments in Python, Java and C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/file-handling-in-python-java-and-c.html">File handling in Python, Java and C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/19/sharing-an-internet-connection-from-your-computer-to-your-mobile-device.html">Sharing an internet connection from your computer to your mobile device</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/07/sparse-matrix-multiplication-using-sql.html">Sparse matrix multiplication using SQL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/06/search-twitter-from-command-line.html">Search twitter from command-line</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/mindprince">@mindprince</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mindprince',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/110953348444823955475?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Rohit Agarwal -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'notes-mindprince';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://notes.mindprince.in/2013/06/30/command-line-arguments-in-python-java-and-c.html';
+        var disqus_url = 'http://notes.mindprince.in/2013/06/30/command-line-arguments-in-python-java-and-c.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
