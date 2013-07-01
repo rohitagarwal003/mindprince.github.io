@@ -7,7 +7,7 @@ title: "Rohit Agarwal's Notes"
 subtitle:
 author: Rohit Agarwal
 simple_search: http://google.com/search
-description: "Hello, I'm Rohit Agarwal. I'm a software developer. This is where I note my experiences while playing with new (and old) technologies."
+description: "Hello, I'm Rohit Agarwal. I'm a software engineer. This is where I note my experiences while playing with new (and old) technologies."
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -99,4 +99,4 @@ disqus_show_comment_count: false
 google_analytics_tracking_id: UA-41274493-1
 
 # Facebook Like
-facebook_like: true
+facebook_like: false
