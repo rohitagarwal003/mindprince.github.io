@@ -209,7 +209,7 @@
 
 <h3>Reading a file at once</h3>
 
-<p>There is no obvious way to do this in Java. <a href="http://stackoverflow.com/questions/3402735/what-is-simplest-way-to-read-a-file-into-string-in-java">This question</a> provides various hacks.</p>
+<p><a href="http://stackoverflow.com/questions/3402735/what-is-simplest-way-to-read-a-file-into-string-in-java">This question on Stack Overflow</a> shows various ways to do this.</p>
 
 <h3>Reading a file line by line</h3>
 
@@ -444,8 +444,8 @@
 </span><span class='line'>        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="kt">char</span> <span class="n">line</span><span class="p">[</span><span class="mi">1000</span><span class="p">];</span>
-</span><span class='line'>    <span class="c1">// assuming no line in the file is longer than 1000 characters.</span>
+</span><span class='line'>    <span class="kt">char</span> <span class="n">line</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
+</span><span class='line'>    <span class="c1">// assuming no line in the file is longer than 1024 characters.</span>
 </span><span class='line'>    <span class="k">while</span> <span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="k">sizeof</span> <span class="n">line</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>        <span class="c1">// line contains a newline (\n) at the end</span>
 </span><span class='line'>        <span class="c1">// except maybe for the last line of the file</span>
@@ -497,9 +497,9 @@
 </span><span class='line'>        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="kt">char</span> <span class="n">word</span><span class="p">[</span><span class="mi">50</span><span class="p">];</span>
-</span><span class='line'>    <span class="c1">// assuming no word in the file is longer than 50 characters.</span>
-</span><span class='line'>    <span class="k">while</span> <span class="p">(</span><span class="n">fscanf</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="s">&quot;%s&quot;</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span> <span class="o">!=</span> <span class="n">EOF</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kt">char</span> <span class="n">word</span><span class="p">[</span><span class="mi">64</span><span class="p">];</span>
+</span><span class='line'>    <span class="c1">// assuming no word in the file is longer than 64 characters.</span>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span><span class="n">fscanf</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="s">&quot;%64s&quot;</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span> <span class="o">!=</span> <span class="n">EOF</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>        <span class="c1">// do something with word</span>
 </span><span class='line'>        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">word</span><span class="p">);</span>
 </span><span class='line'>    <span class="p">}</span>
