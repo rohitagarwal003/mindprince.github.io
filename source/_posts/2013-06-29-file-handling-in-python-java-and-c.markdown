@@ -70,7 +70,7 @@ with open("/path/to/file/filename.txt", "w") as f:
 ## Reading a file in Java
 
 ### Reading a file at once
-There is no obvious way to do this in Java. [This question](http://stackoverflow.com/questions/3402735/what-is-simplest-way-to-read-a-file-into-string-in-java) provides various hacks.
+[This question on Stack Overflow](http://stackoverflow.com/questions/3402735/what-is-simplest-way-to-read-a-file-into-string-in-java) shows various ways to do this.
 
 ### Reading a file line by line
 {% codeblock lang:java %}
@@ -190,8 +190,8 @@ int main() {
         exit(1);
     }
 
-    char line[1000];
-    // assuming no line in the file is longer than 1000 characters.
+    char line[1024];
+    // assuming no line in the file is longer than 1024 characters.
     while (fgets(line, sizeof line, fp) != NULL) {
         // line contains a newline (\n) at the end
         // except maybe for the last line of the file
@@ -220,9 +220,9 @@ int main() {
         exit(1);
     }
 
-    char word[50];
-    // assuming no word in the file is longer than 50 characters.
-    while (fscanf(fp, "%s", word) != EOF) {
+    char word[64];
+    // assuming no word in the file is longer than 64 characters.
+    while (fscanf(fp, "%64s", word) != EOF) {
         // do something with word
         printf("%s\n", word);
     }
