@@ -11,48 +11,60 @@ File handling is a very [common task](/categories/common-tasks/). Here are snipp
 
 ### Reading a file at once
 {% codeblock lang:python %}
-with open("/path/to/file/filename.txt", "r") as f:
-    text = f.read()
-    # text is a string which contains all the text in the file.
-    # this may cause problems with very big files.
+try:
+    with open("/path/to/file/filename.txt", "r") as f:
+        text = f.read()
+        # text is a string which contains all the text in the file.
+        # this may cause problems with very big files.
 
-    # do something with text
-    print text
+        # do something with text
+        print text
+except IOError as e:
+    print e.strerror
 {% endcodeblock %}
 
 ### Reading a file line by line
 {% codeblock lang:python %}
-with open("/path/to/file/filename.txt", "r") as f:
-    for line in f:
-        # line is a string
-        # a newline character (\n) is present at the end of the string
-        # and is only omitted on the last line of the file if the
-        # file doesn't end in a newline.
+try:
+    with open("/path/to/file/filename.txt", "r") as f:
+        for line in f:
+            # line is a string
+            # a newline character (\n) is present at the end of the string
+            # and is only omitted on the last line of the file if the
+            # file doesn't end in a newline.
 
-        # do something with line
-        print line
+            # do something with line
+            print line
+except IOError as e:
+    print e.strerror
 {% endcodeblock %}
 
 ### Reading a file word by word
 {% codeblock lang:python %}
-with open("/path/to/file/filename.txt", "r") as f:
-    for line in f:
-        for word in line.split():
-            # do something with word
-            print word
+try:
+    with open("/path/to/file/filename.txt", "r") as f:
+        for line in f:
+            for word in line.split():
+                # do something with word
+                print word
+except IOError as e:
+    print e.strerror
 {% endcodeblock %}
 
 ### Reading a file character by character
 {% codeblock lang:python %}
-with open("/path/to/file/filename.txt", "r") as f:
-    while True:
-        character = f.read(1)
-        if character:
-            # do something with character
-            print character
-        else:
-            # end-of-file reached
-            break
+try:
+    with open("/path/to/file/filename.txt", "r") as f:
+        while True:
+            character = f.read(1)
+            if character:
+                # do something with character
+                print character
+            else:
+                # end-of-file reached
+                break
+except IOError as e:
+    print e.strerror
 {% endcodeblock %}
 
 ## Writing a file in Python
@@ -80,7 +92,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class FileLL {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         Scanner s = null;
         try {
             s = new Scanner(new BufferedReader(new FileReader("/path/to/file/filename.txt")));
@@ -91,6 +103,9 @@ public class FileLL {
                 // do something with line
                 System.out.print(line);
             }
+        } catch (FileNotFoundException e) {
+            System.err.println("Can't open input file!");
+            System.err.println(e.getMessage());
         } finally {
             if (s != null) {
                 s.close();
@@ -108,7 +123,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class FileWW {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         Scanner s = null;
         try {
             s = new Scanner(new BufferedReader(new FileReader("/path/to/file/filename.txt")));
@@ -118,6 +133,9 @@ public class FileWW {
                 // do something with the word
                 System.out.println(word);
             }
+        } catch (FileNotFoundException e) {
+            System.err.println("Can't open input file!");
+            System.err.println(e.getMessage());
         } finally {
             if (s != null) {
                 s.close();
@@ -135,7 +153,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class FileCC {
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader("/path/to/file/filename.txt"));
@@ -146,6 +164,9 @@ public class FileCC {
                 // do something with the character.
                 System.out.print(character);
             }
+        } catch (FileNotFoundException e) {
+            System.err.println("Can't open input file!");
+            System.err.println(e.getMessage());
         } finally {
             if (br != null) {
                 br.close();
