@@ -20,7 +20,7 @@ try:
         # do something with text
         print text
 except IOError as e:
-    print e.strerror
+    print "IOError: %s: %s" % (e.filename, e.strerror)
 {% endcodeblock %}
 
 ### Reading a file line by line
@@ -36,7 +36,7 @@ try:
             # do something with line
             print line
 except IOError as e:
-    print e.strerror
+    print "IOError: %s: %s" % (e.filename, e.strerror)
 {% endcodeblock %}
 
 ### Reading a file word by word
@@ -48,7 +48,7 @@ try:
                 # do something with word
                 print word
 except IOError as e:
-    print e.strerror
+    print "IOError: %s: %s" % (e.filename, e.strerror)
 {% endcodeblock %}
 
 ### Reading a file character by character
@@ -64,7 +64,7 @@ try:
                 # end-of-file reached
                 break
 except IOError as e:
-    print e.strerror
+    print "IOError: %s: %s" % (e.filename, e.strerror)
 {% endcodeblock %}
 
 ## Writing a file in Python
