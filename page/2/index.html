@@ -1,0 +1,631 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Rohit Agarwal's Notes</title>
+  <meta name="author" content="Rohit Agarwal">
+
+  
+  <meta name="description" content="Recently, I started learning the Twitter API.
+Twitter has deprecated v1 of its API, and the v1.1 of its API requires the use of OAuth. So, the first &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://notes.mindprince.in/page/2/index.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Rohit Agarwal's Notes" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41274493-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Rohit Agarwal's Notes</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:notes.mindprince.in" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/06/06/search-twitter-from-command-line.html">Search twitter from command-line</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-06T20:55:00+05:30" pubdate data-updated="true">Jun 6<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Recently, I started learning the Twitter API.
+Twitter has deprecated <a href="https://dev.twitter.com/docs/api/1">v1</a> of its API, and the <a href="https://dev.twitter.com/docs/api/1.1">v1.1</a> of its API requires the use of <code>OAuth</code>.</p>
+
+<p>So, the first step is to download an <code>OAuth</code> library. I am going to use <a href="https://github.com/simplegeo/python-oauth2"><code>simplegeo/python-oauth2</code></a>.
+You can download it from <a href="https://pypi.python.org/pypi/oauth2/">pypi</a> and install it by executing <code>sudo ./setup.py install</code>.</p>
+
+<p>Here is a script which uses the API to search twitter from the terminal.</p>
+
+<div><script src='https://gist.github.com/5722371.js?file=twitter_search.py'></script>
+<noscript><pre><code>#! /usr/bin/env python
+
+# Search Twitter from command-line
+# Usage $ python twitter_search.py SEARCH TERMS
+
+# This uses API v1.1
+
+import sys
+import json
+import urllib
+import oauth2 as oauth
+
+consumer_key        = &quot;Enter Your Consumer Key Here.&quot;
+consumer_secret     = &quot;Enter Your Consumer Secret Here&quot;
+
+access_token_key    = &quot;Enter Your Access Token Here&quot;
+access_token_secret = &quot;Enter Your Access Token Secret Here&quot;
+
+# Let https://pypi.python.org/pypi/oauth2/ worry about oauth stuff.
+def oauth_req(url):
+
+    consumer    = oauth.Consumer(key=consumer_key, secret=consumer_secret)
+    token       = oauth.Token(key=access_token_key, secret=access_token_secret)
+    client      = oauth.Client(consumer, token)
+
+    resp, content = client.request(url, method=&quot;GET&quot;)
+    return content
+
+def search(term):
+    endpoint = &quot;https://api.twitter.com/1.1/search/tweets.json&quot;
+    url = endpoint + &quot;?&quot; + urllib.urlencode({'q':term})
+    search_results = oauth_req(url)
+    search_results_dict = json.loads(search_results)
+    for tweet in search_results_dict['statuses']:
+        print tweet['user']['name'] + &quot;:&quot;
+        print tweet['text']
+        print
+
+def main():
+    search_term = &quot;&quot;
+    for term in sys.argv[1:]:
+        search_term = search_term + &quot; &quot; + term
+    search(search_term)
+    
+if __name__ == '__main__':
+    main()</code></pre></noscript></div>
+
+
+<p>To use this script, you first need to create an application at <a href="https://dev.twitter.com/apps">https://dev.twitter.com/apps</a></p>
+
+<p>You will get your <code>consumer_key</code> and <code>consumer_secret</code> from there.
+You will also need to create an access token for your account.
+After doing that you will get your <code>access_token_key</code> and <code>access_token_secret</code>.</p>
+
+<p>Fill these four values in <code>twitter_search.py</code> and you are good to go.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python twitter_search.py SEARCH TERM<span class="o">(</span>S<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/05/29/octopress-and-github-wtf-is-going-on-with-the-branches.html">Octopress and Github: WTF is going on with the branches?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-29T19:50:00+05:30" pubdate data-updated="true">May 29<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This blog is powered by Octopress and hosted using Github Pages.
+When I checked the github repository for this blog, I found that there were two branches: <code>master</code> and <code>source</code>.
+But locally there was only one: <code>source</code>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch
+</span><span class='line'>* source</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To understand what was going on, I dug up the <a href="http://octopress.org/docs/deploying/github/">docs</a>.</p>
+
+<p>Initially when you clone the octopress repo from <a href="https://github.com/imathis/octopress">imathis/octopress</a>, the local branch is called <code>master</code> and the remote <code>imathis/octopress</code> is called <code>origin</code>.</p>
+
+<p>The <a href="https://github.com/imathis/octopress/blob/1bd2b62a80f3a7be330cb9600a2206a678e6863d/Rakefile#L315">magic</a> happens when you do <code>rake setup_github_pages</code>.</p>
+
+<p>It renames the remote pointing to <code>imathis/octopress</code> from <code>origin</code> to <code>octopress</code>; adds your Github Pages repository as the default <code>origin</code> remote and renames the <code>master</code> branch to <code>source</code>.
+It then creates a new directory <code>_deploy/</code> and initializes a new git repository there.
+<em>Finally, it adds your Github Pages repository as the default <code>origin</code> remote for this new repository also.</em></p>
+
+<p>Now, when you do <code>rake deploy</code>, the <code>master</code> branch of the git repo in <code>_deploy/</code> is pushed to the <code>master</code> branch of your Github Pages repo. And when you push the source repo to github, it becomes the <code>source</code> branch of your Github Pages repo.</p>
+
+<p>Here are some more details:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd octopress/  # THE_DIRECTORY_WHERE_YOU_CLONED_OCTOPRESS
+</span><span class='line'>$ git remote show origin
+</span><span class='line'>* remote origin
+</span><span class='line'>  Fetch URL: git@github.com:mindprince/mindprince.github.io.git
+</span><span class='line'>  Push  URL: git@github.com:mindprince/mindprince.github.io.git
+</span><span class='line'>  HEAD branch: master
+</span><span class='line'>  Remote branches:
+</span><span class='line'>    master new (next fetch will store in remotes/origin)
+</span><span class='line'>    source tracked
+</span><span class='line'>  Local ref configured for 'git push':
+</span><span class='line'>    source pushes to source (up to date)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd octopress/_deploy/
+</span><span class='line'>$ git remote show origin
+</span><span class='line'>* remote origin
+</span><span class='line'>  Fetch URL: git@github.com:mindprince/mindprince.github.io.git
+</span><span class='line'>  Push  URL: git@github.com:mindprince/mindprince.github.io.git
+</span><span class='line'>  HEAD branch: master
+</span><span class='line'>  Remote branches:
+</span><span class='line'>    master tracked
+</span><span class='line'>    source new (next fetch will store in remotes/origin)
+</span><span class='line'>  Local ref configured for 'git push':
+</span><span class='line'>    master pushes to master (up to date)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To summarize, the two branches <code>source</code> and <code>master</code> on your Github Pages repo correspond to two separate git repositories: one in your <code>octopress/</code> directory and another in the <code>octopress/_deploy/</code> directory.</p>
+
+<p>The fact that separate git repositories on your local machine can act as different branches of the same repository on github is interesting. It can probably be misused to host more than five private repositories in <a href="https://github.com/plans">Github&rsquo;s Micro plan</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/05/28/fixing-unicodedecodeerror-in-python.html">Fixing UnicodeDecodeError in Python</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-28T21:09:00+05:30" pubdate data-updated="true">May 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="s">&quot;He said, “Hi, there.” She didn&#39;t reply.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span><span class='line'><span class="go">&lt;type &#39;str&#39;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+</span><span class='line'><span class="go">&quot;He said, \xe2\x80\x9cHi, there.\xe2\x80\x9d She didn&#39;t reply.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">a</span>
+</span><span class='line'><span class="go">He said, “Hi, there.” She didn&#39;t reply.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>a</code> is a string encoded in utf-8.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">UnicodeDecodeError</span>: <span class="n">&#39;ascii&#39; codec can&#39;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This didn&rsquo;t work because the default encoding in python in ascii. So, python was not able to decode <code>a</code> assuming ascii encoding.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</span><span class='line'><span class="go">&lt;type &#39;unicode&#39;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span>
+</span><span class='line'><span class="go">u&quot;He said, \u201cHi, there.\u201d She didn&#39;t reply.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">b</span>
+</span><span class='line'><span class="go">He said, “Hi, there.” She didn&#39;t reply.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>b</code> is not a string. It is a unicode object. I think it has no encoding. You can encode it in different encodings.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</span><span class='line'><span class="go">&lt;type &#39;str&#39;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span>
+</span><span class='line'><span class="go">&quot;He said, \xe2\x80\x9cHi, there.\xe2\x80\x9d She didn&#39;t reply.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">c</span>
+</span><span class='line'><span class="go">He said, “Hi, there.” She didn&#39;t reply.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>c</code> is now same as <code>a</code>. It is a string encoded in utf-8. We created it by encoding a unicode object.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">UnicodeDecodeError</span>: <span class="n">&#39;ascii&#39; codec can&#39;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>a</code> is already encoded in utf-8. What happens here is that python first tries to decode <code>a</code> and then encode <code>a</code>. But decoding <code>a</code> fails because default encoding is assume to be ascii.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="go">&lt;type &#39;unicode&#39;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span>
+</span><span class='line'><span class="go">u&quot;He said, \u201cHi, there.\u201d She didn&#39;t reply.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">e</span>
+</span><span class='line'><span class="go">He said, “Hi, there.” She didn&#39;t reply.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, <code>e</code> is same as <code>b</code>. It is a unicode object.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;ascii&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">UnicodeDecodeError</span>: <span class="n">&#39;ascii&#39; codec can&#39;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Just to show what we have been saying earlier.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;ascii&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">UnicodeEncodeError</span>: <span class="n">&#39;ascii&#39; codec can&#39;t encode character u&#39;\u201c&#39; in position 9: ordinal not in range(128)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note this is an <code>UnicodeEncodeError</code> and not a <code>UnicodeDecodeError</code>. We can&rsquo;t encode a unicode object which contains characters outside of ascii range to ascii encoding.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/archives">Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+    <h1>About Me</h1>
+    <p>Hello, I am Rohit Agarwal. I am a software engineer. This is where I note my experiences while playing with new (and old) technologies.
+    </p>
+    <p>I also blog <a href="http://blog.mindprince.in">here</a>.
+    </p>
+    <p>You can find me on
+        <a href="https://twitter.com/mindprince">Twitter</a>,
+        <a href="https://www.linkedin.com/in/rohitagarwal003">LinkedIn</a> and
+        <a href="https://plus.google.com/110953348444823955475?rel=author">Google+</a>.
+    </p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/08/19/opt-out.html">Opt-Out</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/30/command-line-arguments-in-python-java-and-c.html">Command-line arguments in Python, Java and C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/file-handling-in-python-java-and-c.html">File handling in Python, Java and C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/19/sharing-an-internet-connection-from-your-computer-to-your-mobile-device.html">Sharing an internet connection from your computer to your mobile device</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/07/sparse-matrix-multiplication-using-sql.html">Sparse matrix multiplication using SQL</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/mindprince">@mindprince</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mindprince',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/110953348444823955475?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Rohit Agarwal -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'notes-mindprince';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
