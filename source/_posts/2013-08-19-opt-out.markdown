@@ -27,9 +27,9 @@ You can use the following extensions to preserve the opt-out preferences you hav
 Various analytics services provide ways to opt-out from getting tracked by them.
 The following are the opt-out pages of the major analytics providers:
 
-[Google Analytics Opt-out Browser Add-on](https://tools.google.com/dlpage/gaoptout)  
+[Google Analytics Opt-out Browser Add-on](https://tools.google.com/dlpage/gaoptout) [1]  
 [Yahoo Web Analytics Opt-out](https://reports.web.analytics.yahoo.com/optout,OptOut.vm)  
-[KISSmetrics Opt-out](http://www.kissmetrics.com/user-privacy)  
+[KISSmetrics Opt-out](http://www.kissmetrics.com/user-privacy) [2]  
 [MixPanel Opt-out](https://mixpanel.com/optout/)  
 [Converto Opt-out](http://www.convertro.com/opt-out)  
 [Webtrends Opt-out](https://ondemand.webtrends.com/support/optout.asp)
@@ -42,3 +42,6 @@ It is recommended that you use only one of these as they interfere with each oth
 [Disconnect](https://www.disconnect.me/)  
 [Ghostery](http://www.ghostery.com/)  
 [Abine DoNotTrackMe](http://abine.com/dntdetail.php)
+
+[1] This blog uses Google Analytics. I know.  
+[2] I like how the the opt-out page of KISSmetrics links to the opt-out pages of its competitors.
