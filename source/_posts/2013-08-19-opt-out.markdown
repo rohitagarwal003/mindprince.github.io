@@ -34,9 +34,10 @@ The following are the opt-out pages of the major analytics providers:
 [Converto Opt-out](http://www.convertro.com/opt-out)  
 [Webtrends Opt-out](https://ondemand.webtrends.com/support/optout.asp)
 
-##Browser Extensions/Add-ons
+##All-in-one Browser Extensions
 The following extensions block tracking requests from analytics services, advertising networks and social networking sites.
-It is recommended that you use only one of these as they may interfere with each other's functionality.
+They are a more drastic measure for blocking tracking as they can break the functionality of some web pages.
+It is recommended that you use only one of these as they interfere with each other's working.
 
 [Disconnect](https://www.disconnect.me/)  
 [Ghostery](http://www.ghostery.com/)  
