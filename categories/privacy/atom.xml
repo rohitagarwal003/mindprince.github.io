@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: privacy | Rohit Agarwal's Notes]]></title>
+  <link href="http://notes.mindprince.in/categories/privacy/atom.xml" rel="self"/>
+  <link href="http://notes.mindprince.in/"/>
+  <updated>2013-08-19T06:40:13+05:30</updated>
+  <id>http://notes.mindprince.in/</id>
+  <author>
+    <name><![CDATA[Rohit Agarwal]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Opt-Out]]></title>
+    <link href="http://notes.mindprince.in/2013/08/19/opt-out.html"/>
+    <updated>2013-08-19T04:40:00+05:30</updated>
+    <id>http://notes.mindprince.in/2013/08/19/opt-out</id>
+    <content type="html"><![CDATA[<h2>Online Behavioral Advertising</h2>
+
+<p>A lot of advertisers are part of self-regulatory programs and let you opt-out from receiving interest-based advertising.
+The following tools let you find out which advertisers have enabled interest-based ads for your browser and opt-out from them.
+These tools use opt-out cookies to store your preferences in your browser.
+(Note that if you are running advertising blocking plugins, these tools may not work correctly.)</p>
+
+<p><a href="http://www.aboutads.info/choices/">Digital Advertising Alliance (DAA) opt-out tool</a><br/>
+<a href="http://www.networkadvertising.org/choices/">Network Advertising Initaitive (NAI) opt-out tool</a><br/>
+<a href="http://www.youronlinechoices.com/uk/your-ad-choices">EDAA Your Online Choices opt-out tool</a></p>
+
+<p>Since the opt-out preferences are stored as cookies, deleting cookies will remove your opt-out preferences.
+You can use the following extensions to preserve the opt-out preferences you have set.</p>
+
+<p><a href="http://www.aboutads.info/PMC">Protect My Choices browser extension</a><br/>
+<a href="https://code.google.com/p/chrome-opt-out-extension/">Keep My Opt-Outs browser extension</a></p>
+
+<h2>Analytics</h2>
+
+<p>Various analytics services provide ways to opt-out from getting tracked by them.
+The following are the opt-out pages of the major analytics providers:</p>
+
+<p><a href="https://tools.google.com/dlpage/gaoptout">Google Analytics Opt-out Browser Add-on</a><br/>
+<a href="https://reports.web.analytics.yahoo.com/optout,OptOut.vm">Yahoo Web Analytics Opt-out</a><br/>
+<a href="http://www.kissmetrics.com/user-privacy">KISSmetrics Opt-out</a><br/>
+<a href="https://mixpanel.com/optout/">MixPanel Opt-out</a><br/>
+<a href="http://www.convertro.com/opt-out">Converto Opt-out</a><br/>
+<a href="https://ondemand.webtrends.com/support/optout.asp">Webtrends Opt-out</a></p>
+
+<h2>Browser Extensions/Add-ons</h2>
+
+<p>The following extensions block tracking requests from analytics services, advertising networks and social networking sites.
+It is recommended that you use only one of these as they may interfere with each other&rsquo;s functionality.</p>
+
+<p><a href="https://www.disconnect.me/">Disconnect</a><br/>
+<a href="http://www.ghostery.com/">Ghostery</a><br/>
+<a href="http://abine.com/dntdetail.php">Abine DoNotTrackMe</a></p>
+]]></content>
+  </entry>
+  
+</feed>
