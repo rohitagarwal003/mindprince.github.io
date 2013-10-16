@@ -4,7 +4,7 @@
   <title><![CDATA[Category: twitter | Rohit Agarwal's Notes]]></title>
   <link href="http://notes.mindprince.in/categories/twitter/atom.xml" rel="self"/>
   <link href="http://notes.mindprince.in/"/>
-  <updated>2013-08-20T02:37:21+05:30</updated>
+  <updated>2013-10-16T17:24:56+05:30</updated>
   <id>http://notes.mindprince.in/</id>
   <author>
     <name><![CDATA[Rohit Agarwal]]></name>
@@ -82,7 +82,7 @@ You will also need to create an access token for your account.
 After doing that you will get your <code>access_token_key</code> and <code>access_token_secret</code>.</p>
 
 <p>Fill these four values in <code>twitter_search.py</code> and you are good to go.
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python twitter_search.py SEARCH TERM<span class="o">(</span>S<span class="o">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>

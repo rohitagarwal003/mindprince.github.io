@@ -2,58 +2,58 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://notes.mindprince.in/2013/05/28/fixing-unicodedecodeerror-in-python.html</loc>
-        <lastmod>2013-06-19T02:01:57+05:30</lastmod>
+        <lastmod>2013-10-16T17:09:12+05:30</lastmod>
     </url>
     <url>
         <loc>
             http://notes.mindprince.in/2013/05/29/octopress-and-github-wtf-is-going-on-with-the-branches.html
         </loc>
-        <lastmod>2013-05-29T22:17:46+05:30</lastmod>
+        <lastmod>2013-10-16T17:09:12+05:30</lastmod>
     </url>
     <url>
         <loc>http://notes.mindprince.in/2013/06/06/search-twitter-from-command-line.html</loc>
-        <lastmod>2013-06-06T21:33:48+05:30</lastmod>
+        <lastmod>2013-10-16T17:09:12+05:30</lastmod>
     </url>
     <url>
         <loc>
             http://notes.mindprince.in/2013/06/07/sparse-matrix-multiplication-using-sql.html
         </loc>
-        <lastmod>2013-06-19T02:00:50+05:30</lastmod>
+        <lastmod>2013-10-16T17:09:12+05:30</lastmod>
     </url>
     <url>
         <loc>
             http://notes.mindprince.in/2013/06/19/sharing-an-internet-connection-from-your-computer-to-your-mobile-device.html
         </loc>
-        <lastmod>2013-06-19T01:42:01+05:30</lastmod>
+        <lastmod>2013-10-16T17:09:12+05:30</lastmod>
     </url>
     <url>
         <loc>http://notes.mindprince.in/2013/06/29/file-handling-in-python-java-and-c.html</loc>
-        <lastmod>2013-07-12T11:08:13+05:30</lastmod>
+        <lastmod>2013-10-16T17:09:12+05:30</lastmod>
     </url>
     <url>
         <loc>
             http://notes.mindprince.in/2013/06/30/command-line-arguments-in-python-java-and-c.html
         </loc>
-        <lastmod>2013-06-30T20:43:24+05:30</lastmod>
+        <lastmod>2013-10-16T17:09:12+05:30</lastmod>
     </url>
     <url>
         <loc>http://notes.mindprince.in/2013/08/19/opt-out.html</loc>
-        <lastmod>2013-08-20T02:36:31+05:30</lastmod>
+        <lastmod>2013-10-16T17:09:12+05:30</lastmod>
     </url>
     <url>
         <loc>http://notes.mindprince.in/404.html</loc>
-        <lastmod>2013-05-31T22:31:58+05:30</lastmod>
+        <lastmod>2013-10-16T17:09:12+05:30</lastmod>
     </url>
     <url>
         <loc>http://notes.mindprince.in/archives/</loc>
-        <lastmod>2013-08-20T02:36:31+05:30</lastmod>
+        <lastmod>2013-10-16T17:09:13+05:30</lastmod>
     </url>
     <url>
         <loc>http://notes.mindprince.in/</loc>
-        <lastmod>2013-08-20T02:36:31+05:30</lastmod>
+        <lastmod>2013-10-16T17:11:57+05:30</lastmod>
     </url>
     <url>
         <loc>http://notes.mindprince.in/robots.txt</loc>
-        <lastmod>2013-05-28T17:14:08+05:30</lastmod>
+        <lastmod>2013-10-16T17:09:13+05:30</lastmod>
     </url>
 </urlset>

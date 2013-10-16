@@ -4,7 +4,7 @@
   <title><![CDATA[Category: how-to | Rohit Agarwal's Notes]]></title>
   <link href="http://notes.mindprince.in/categories/how-to/atom.xml" rel="self"/>
   <link href="http://notes.mindprince.in/"/>
-  <updated>2013-08-20T02:37:21+05:30</updated>
+  <updated>2013-10-16T17:24:56+05:30</updated>
   <id>http://notes.mindprince.in/</id>
   <author>
     <name><![CDATA[Rohit Agarwal]]></name>
@@ -69,7 +69,7 @@
 Each non-zero cell in the matrix is represnted as a record (i, j, value) in the table.</p>
 
 <p>Here&rsquo;s how to do the multiplication. First, create the tables:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -98,7 +98,7 @@ Each non-zero cell in the matrix is represnted as a record (i, j, value) in the 
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Next, insert values into the tables:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -121,7 +121,7 @@ Each non-zero cell in the matrix is represnted as a record (i, j, value) in the 
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Finally, perform the multiplication using the following query:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
