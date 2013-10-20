@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Sharing an internet connection from your computer to your mobile device - Rohit Agarwal's Notes</title>
+  <title>How to transfer files from Mac to iPad without iTunes - Rohit Agarwal's Notes</title>
   <meta name="author" content="Rohit Agarwal">
 
   
-  <meta name="description" content="How to share an internet connection from a computer running Windows or Mac OS X or Linux to a device running iOS or Android">
+  <meta name="description" content="How to transfer files from your Mac/PC to your iPad/iPhone/Android device without iTunes.">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://notes.mindprince.in/2013/06/19/sharing-an-internet-connection-from-your-computer-to-your-mobile-device.html">
+  <link rel="canonical" href="http://notes.mindprince.in/2013/10/20/how-to-transfer-files-from-mac-to-ipad-without-itunes.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Rohit Agarwal's Notes" type="application/atom+xml">
@@ -78,7 +78,7 @@
   
   <header>
     
-      <h1 class="entry-title">Sharing an internet connection from your computer to your mobile device</h1>
+      <h1 class="entry-title">How to transfer files from Mac to iPad without iTunes</h1>
     
     
       <p class="meta">
@@ -94,32 +94,30 @@
   
 
 
-<time datetime="2013-06-19T00:13:00+05:30" pubdate data-updated="true">Jun 19<span>th</span>, 2013</time>
+<time datetime="2013-10-20T09:36:00+05:30" pubdate data-updated="true">Oct 20<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Recently, I explored how to share an internet connection from computers running Windows or Mac OS X or Linux to mobile devices running iOS or Android.</p>
+<div class="entry-content"><p>Usually when I need to transfer files from my Mac to my iPad, I either email them to myself or use Dropbox. But sometimes I don&rsquo;t want to send some files over the internet. Earlier, in those cases I would connect my iPad to my Mac and then transfer the files via iTunes. Not anymore. There is a really cool way to transfer files from your Mac to your iPad when they are on the same network. Here&rsquo;s how:</p>
 
-<p>Here&rsquo;s the summary:</p>
+<p>1) Open the terminal.</p>
 
-<p>Unrooted Android devices don&rsquo;t support ad-hoc mode (<a href="https://code.google.com/p/android/issues/detail?id=82">https://code.google.com/p/android/issues/detail?id=82</a>) i.e. they don&rsquo;t see ad-hoc WiFi networks.</p>
+<p>2) In the termial, go to the folder which contains the files you want to transfer.</p>
 
-<p>iOS devices support ad-hoc mode i.e. they can see ad-hoc WiFi networks.</p>
+<p>3) Enter <code>python -m SimpleHTTPServer 8000</code>.</p>
 
-<p>Now, if you are on a Mac and you want to share your internet connection, you follow the steps outlined here: <a href="http://support.apple.com/kb/PH3853">http://support.apple.com/kb/PH3853</a>, this creates a WiFi network in Infrastructure mode which is visible to both iOS and Android devices and you can access the internet on these devices using this network.</p>
+<p>4) If the firewall prompts: <em>Do you want the application &ldquo;python&rdquo; to accept incoming network connections?</em> Click <em>Allow</em>.</p>
 
-<p>You can create an ad-hoc network on a Mac by following these steps: <a href="http://support.apple.com/kb/PH3771">http://support.apple.com/kb/PH3771</a>. But this network is not visible to unrooted Android devices and iOS devices were not able to access the internet even after connecting to this network. So, don&rsquo;t do this.</p>
+<p>5) Find out the IP address of your Mac using <code>ifconfig</code>.</p>
 
-<p>If you are on a PC (Windows 7 or later), you can use <a href="http://www.connectify.me/hotspot/">Connectify Hotspot</a> to create a hotspot in Access Point Mode which is visible to both Android and iOS devices and access the internet on these devices using this hotspot. However, if you are on Windows XP or Vista, your Connectify hotspot will operate in ad-hoc mode and will not work with unrooted Android devices [<a href="http://support.connectify.me/entries/20307637-Does-Connectify-Hotspot-run-on-Windows-Vista-or-Windows-XP-">1</a>] [<a href="http://support.connectify.me/entries/20316691-access-point-mode-vs-ad-hoc-mode">2</a>].</p>
+<p>6) Go to <code>http://&lt;your-mac's-ip-address&gt;:8000</code> on your iPad.</p>
 
-<p>If you don&rsquo;t want to use Connectify Hotspot, you can create an ad-hoc network by following these steps: <a href="http://windows.microsoft.com/en-in/windows7/set-up-a-computer-to-computer-ad-hoc-network">http://windows.microsoft.com/en-in/windows7/set-up-a-computer-to-computer-ad-hoc-network</a>. This network is not visible to unrooted Android devices but is visible to iOS devices and they can access the internet using this network.</p>
+<p>7) Done!</p>
 
-<p>If you are on a PC running Ubuntu, you can create an ad-hoc network by going to the <code>Network</code> menu and then clicking <code>Create New Wireless Network</code>. This network is not visible to unrooted Android devices but is visible to iOS devices and they can access the internet using this network.</p>
-
-<p>I don&rsquo;t know of a way to create a WiFi network on an Ubuntu machine which is visible to unrooted Android devices.</p>
+<p>This method is very general. You can use it to transfer files from your Mac or PC to your iPad, iPhone or Android device. The only requirements are that they should be on the same network, the Mac/PC should have python installed and you should have permissions to poke holes in your firewall.</p>
 </div>
 
 
@@ -142,7 +140,7 @@
   
 
 
-<time datetime="2013-06-19T00:13:00+05:30" pubdate data-updated="true">Jun 19<span>th</span>, 2013</time>
+<time datetime="2013-10-20T09:36:00+05:30" pubdate data-updated="true">Oct 20<span>th</span>, 2013</time>
       
 
 <span class="categories">
@@ -156,7 +154,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://notes.mindprince.in/2013/06/19/sharing-an-internet-connection-from-your-computer-to-your-mobile-device.html" data-via="mindprince" data-counturl="http://notes.mindprince.in/2013/06/19/sharing-an-internet-connection-from-your-computer-to-your-mobile-device.html" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://notes.mindprince.in/2013/10/20/how-to-transfer-files-from-mac-to-ipad-without-itunes.html" data-via="mindprince" data-counturl="http://notes.mindprince.in/2013/10/20/how-to-transfer-files-from-mac-to-ipad-without-itunes.html" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -167,10 +165,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2013/06/07/sparse-matrix-multiplication-using-sql.html" title="Previous Post: Sparse matrix multiplication using SQL">&laquo; Sparse matrix multiplication using SQL</a>
+        <a class="basic-alignment left" href="/2013/08/19/opt-out.html" title="Previous Post: Opt-Out">&laquo; Opt-Out</a>
       
-      
-        <a class="basic-alignment right" href="/2013/06/29/file-handling-in-python-java-and-c.html" title="Next Post: File handling in Python, Java and C">File handling in Python, Java and C &raquo;</a>
       
     </p>
   </footer>
@@ -285,8 +281,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://notes.mindprince.in/2013/06/19/sharing-an-internet-connection-from-your-computer-to-your-mobile-device.html';
-        var disqus_url = 'http://notes.mindprince.in/2013/06/19/sharing-an-internet-connection-from-your-computer-to-your-mobile-device.html';
+        var disqus_identifier = 'http://notes.mindprince.in/2013/10/20/how-to-transfer-files-from-mac-to-ipad-without-itunes.html';
+        var disqus_url = 'http://notes.mindprince.in/2013/10/20/how-to-transfer-files-from-mac-to-ipad-without-itunes.html';
         var disqus_script = 'embed.js';
       
     (function () {

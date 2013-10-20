@@ -4,7 +4,7 @@
   <title><![CDATA[Rohit Agarwal's Notes]]></title>
   <link href="http://notes.mindprince.in/atom.xml" rel="self"/>
   <link href="http://notes.mindprince.in/"/>
-  <updated>2013-10-16T17:24:56+05:30</updated>
+  <updated>2013-10-20T09:49:17+05:30</updated>
   <id>http://notes.mindprince.in/</id>
   <author>
     <name><![CDATA[Rohit Agarwal]]></name>
@@ -12,6 +12,31 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to transfer files from Mac to iPad without iTunes]]></title>
+    <link href="http://notes.mindprince.in/2013/10/20/how-to-transfer-files-from-mac-to-ipad-without-itunes.html"/>
+    <updated>2013-10-20T09:36:00+05:30</updated>
+    <id>http://notes.mindprince.in/2013/10/20/how-to-transfer-files-from-mac-to-ipad-without-itunes</id>
+    <content type="html"><![CDATA[<p>Usually when I need to transfer files from my Mac to my iPad, I either email them to myself or use Dropbox. But sometimes I don&rsquo;t want to send some files over the internet. Earlier, in those cases I would connect my iPad to my Mac and then transfer the files via iTunes. Not anymore. There is a really cool way to transfer files from your Mac to your iPad when they are on the same network. Here&rsquo;s how:</p>
+
+<p>1) Open the terminal.</p>
+
+<p>2) In the termial, go to the folder which contains the files you want to transfer.</p>
+
+<p>3) Enter <code>python -m SimpleHTTPServer 8000</code>.</p>
+
+<p>4) If the firewall prompts: <em>Do you want the application &ldquo;python&rdquo; to accept incoming network connections?</em> Click <em>Allow</em>.</p>
+
+<p>5) Find out the IP address of your Mac using <code>ifconfig</code>.</p>
+
+<p>6) Go to <code>http://&lt;your-mac's-ip-address&gt;:8000</code> on your iPad.</p>
+
+<p>7) Done!</p>
+
+<p>This method is very general. You can use it to transfer files from your Mac or PC to your iPad, iPhone or Android device. The only requirements are that they should be on the same network, the Mac/PC should have python installed and you should have permissions to poke holes in your firewall.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Opt-Out]]></title>
