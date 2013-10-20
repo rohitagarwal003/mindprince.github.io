@@ -23,4 +23,4 @@ Usually when I need to transfer files from my Mac to my iPad, I either email the
 
 7) Done!
 
-This method is very general. You can use it to transfer files from your Mac or PC to your iPad, iPhone or Android device. The only requirements are that they should be on the same network, the Mac/PC should have python installed and you should have permissions to poke holes in your firewall.
+This method is very general. You can use it to transfer files from your Mac or PC to your iPad, iPhone or Android device. The only requirements are that they should be on the same network, the Mac/PC should have python installed and you should have permission to poke holes in your firewall.
