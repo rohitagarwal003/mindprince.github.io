@@ -471,249 +471,6 @@ $ &hellip;">
       
   <header>
     
-      <h1 class="entry-title"><a href="/2013/11/23/setup-ganglia-monitoring-on-your-amazon-ec2-clusters.html">Setup ganglia monitoring on your Amazon EC2 clusters</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-23T13:54:00+05:30" pubdate data-updated="true">Nov 23<span>rd</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I started four instances running <code>Amazon Linux AMI 2013.09.1 - ami-4296c310 (64-bit)</code> in the Singapore region <code>ap-southeast-1</code>. The security group for these instances allowed inbound SSH and HTTP from my IP address and all traffic from other instances in the same security group.</p>
-
-<h2>ON THE MASTER INSTANCE</h2>
-
-<h3>Installation</h3>
-
-<p>Install <code>ganglia-gmond</code>, <code>ganglia-gmetad</code> and <code>ganglia-web</code>.</p>
-
-<pre><code>sudo yum install ganglia-gmond ganglia-gmetad ganglia-web
-</code></pre>
-
-<h3>Edit <code>ganglia</code> configuration files</h3>
-
-<pre><code>sudo vim /etc/ganglia/gmond.conf 
-</code></pre>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.
-</span><span class='line'>.
-</span><span class='line'>cluster {
-</span><span class='line'>  name = "ganglia-test"
-</span><span class='line'>  .
-</span><span class='line'>  .
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>udp_send_channel {
-</span><span class='line'>  host = PRIVATE.IP.ADDRESS.MASTER
-</span><span class='line'>  port = 8649
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>udp_recv_channel {
-</span><span class='line'>  port = 8649
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>tcp_accept_channel {
-</span><span class='line'>  port = 8649
-</span><span class='line'>} 
-</span><span class='line'>.
-</span><span class='line'>.</span></code></pre></td></tr></table></div></figure>
-
-
-<pre><code>sudo vim /etc/ganglia/gmetad.conf 
-</code></pre>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.
-</span><span class='line'>.
-</span><span class='line'>data_source "ganglia-test” PRIVATE.IP.ADDRESS.MASTER
-</span><span class='line'>.
-</span><span class='line'>.</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Edit apache httpd configuration files</h3>
-
-<pre><code>sudo vim /etc/httpd/conf/httpd.conf  
-</code></pre>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.
-</span><span class='line'>.
-</span><span class='line'>&lt;Directory "/usr/share/ganglia">
-</span><span class='line'>  Require all granted
-</span><span class='line'>&lt;/Directory>
-</span><span class='line'>.
-</span><span class='line'>.</span></code></pre></td></tr></table></div></figure>
-
-
-<pre><code>sudo vim /etc/httpd/conf.d/ganglia.conf 
-</code></pre>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.
-</span><span class='line'>.
-</span><span class='line'>Alias /ganglia /usr/share/ganglia
-</span><span class='line'>
-</span><span class='line'>&lt;Location /ganglia>
-</span><span class='line'>  Order deny,allow
-</span><span class='line'>  Allow from all
-</span><span class='line'>  Allow from 127.0.0.1
-</span><span class='line'>  Allow from ::1
-</span><span class='line'>&lt;/Location> 
-</span><span class='line'>.
-</span><span class='line'>.</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Start daemons</h3>
-
-<pre><code>sudo service gmetad start
-sudo service gmond start  
-sudo service httpd start
-</code></pre>
-
-<h2>ON THE SLAVE INSTANCES</h2>
-
-<h3>Installation</h3>
-
-<pre><code>sudo yum install ganglia-gmond
-</code></pre>
-
-<h3>Edit <code>ganglia</code> configuration files</h3>
-
-<pre><code>sudo vim /etc/ganglia/gmond.conf 
-</code></pre>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.
-</span><span class='line'>.
-</span><span class='line'>globals {
-</span><span class='line'>  .
-</span><span class='line'>  .
-</span><span class='line'>  deaf = yes
-</span><span class='line'>  .
-</span><span class='line'>  .
-</span><span class='line'>} 
-</span><span class='line'>
-</span><span class='line'>cluster {
-</span><span class='line'>  name = "ganglia-test"
-</span><span class='line'>  .
-</span><span class='line'>  .
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>udp_send_channel {
-</span><span class='line'>  host = 172.31.14.61
-</span><span class='line'>  port = 8649
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>udp_recv_channel {
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>tcp_accept_channel {
-</span><span class='line'>}
-</span><span class='line'>.
-</span><span class='line'>.</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Start daemons</h3>
-
-<pre><code>sudo service gmond start  
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/2013/10/20/how-to-transfer-files-from-mac-to-ipad-without-itunes.html">How to transfer files from Mac to iPad without iTunes</a></h1>
     
     
@@ -964,6 +721,168 @@ It is recommended that you use only one of these as they interfere with each oth
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/06/29/file-handling-in-python-java-and-c.html">File handling in Python, Java and C</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-29T17:30:00+05:30" pubdate data-updated="true">Jun 29<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>File handling is a very <a href="/categories/common-tasks/">common task</a>. Here are snippets of code I use to perform various file handling operations in Python, Java and C.</p>
+
+<h2>Reading a file in Python</h2>
+
+<h3>Reading a file at once</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">text</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span><span class='line'>        <span class="c"># text is a string which contains all the text in the file.</span>
+</span><span class='line'>        <span class="c"># this may cause problems with very big files.</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c"># do something with text</span>
+</span><span class='line'>        <span class="k">print</span> <span class="n">text</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;IOError: </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">strerror</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Reading a file line by line</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>            <span class="c"># line is a string</span>
+</span><span class='line'>            <span class="c"># a newline character (\n) is present at the end of the string</span>
+</span><span class='line'>            <span class="c"># and is only omitted on the last line of the file if the</span>
+</span><span class='line'>            <span class="c"># file doesn&#39;t end in a newline.</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="c"># do something with line</span>
+</span><span class='line'>            <span class="k">print</span> <span class="n">line</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;IOError: </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">strerror</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Reading a file word by word</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+</span><span class='line'>                <span class="c"># do something with word</span>
+</span><span class='line'>                <span class="k">print</span> <span class="n">word</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;IOError: </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">strerror</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Reading a file character by character</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">character</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">character</span><span class="p">:</span>
+</span><span class='line'>                <span class="c"># do something with character</span>
+</span><span class='line'>                <span class="k">print</span> <span class="n">character</span>
+</span><span class='line'>            <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>                <span class="c"># end-of-file reached</span>
+</span><span class='line'>                <span class="k">break</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;IOError: </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">strerror</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Writing a file in Python</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>    <span class="c"># write to the file using f.write()</span>
+</span><span class='line'>    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;Whatever you want to write.</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;Really, anything.</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2013/06/29/file-handling-in-python-java-and-c.html">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/page/2/">&larr; Older</a>
@@ -995,10 +914,6 @@ It is recommended that you use only one of these as they interfere with each oth
       </li>
     
       <li class="post">
-        <a href="/2013/11/23/setup-ganglia-monitoring-on-your-amazon-ec2-clusters.html">Setup ganglia monitoring on your Amazon EC2 clusters</a>
-      </li>
-    
-      <li class="post">
         <a href="/2013/10/20/how-to-transfer-files-from-mac-to-ipad-without-itunes.html">How to transfer files from Mac to iPad without iTunes</a>
       </li>
     
@@ -1008,6 +923,10 @@ It is recommended that you use only one of these as they interfere with each oth
     
       <li class="post">
         <a href="/2013/06/30/command-line-arguments-in-python-java-and-c.html">Command-line arguments in Python, Java and C</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/29/file-handling-in-python-java-and-c.html">File handling in Python, Java and C</a>
       </li>
     
   </ul>
