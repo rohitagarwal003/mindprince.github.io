@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Sparse matrix multiplication using SQL - Rohit Agarwal's Notes</title>
+  <title>Setup ganglia monitoring on your Amazon EC2 clusters - Rohit Agarwal's Notes</title>
   <meta name="author" content="Rohit Agarwal">
 
   
-  <meta name="description" content="How to multiply two sparse matrices using relational databases and SQL.">
+  <meta name="description" content="How to setup ganglia monitoring on your AWS clusters. My instances use Amazon Linux AMI 2013.09.1.">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://notes.mindprince.in/2013/06/07/sparse-matrix-multiplication-using-sql.html">
+  <link rel="canonical" href="http://notes.mindprince.in/2013/11/23/setup-ganglia-monitoring-on-your-amazon-ec2-clusters.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Rohit Agarwal's Notes" type="application/atom+xml">
@@ -78,7 +78,7 @@
   
   <header>
     
-      <h1 class="entry-title">Sparse matrix multiplication using SQL</h1>
+      <h1 class="entry-title">Setup ganglia monitoring on your Amazon EC2 clusters</h1>
     
     
       <p class="meta">
@@ -94,31 +94,28 @@
   
 
 
-<time datetime="2013-06-07T21:57:00+05:30" pubdate data-updated="true">Jun 7<span>th</span>, 2013</time>
+<time datetime="2013-11-23T13:54:00+05:30" pubdate data-updated="true">Nov 23<span>rd</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><code>a</code> and <code>b</code> are two sparse matrices. We want to perform <code>a * b</code> as shown below:</p>
+<div class="entry-content"><p>I started four instances running <code>Amazon Linux AMI 2013.09.1 - ami-4296c310 (64-bit)</code> in the Singapore region <code>ap-southeast-1</code>. The security group for these instances allowed inbound SSH and HTTP from my IP address and all traffic from other instances in the same security group.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>0   1   0   0   9                1   0   0                0   0   0
-</span><span class='line'>0   0   3   0   0       \ /      0   0   0      -----     0  21   0
-</span><span class='line'>0   0   0   2   0        *       0   7   0      -----     0   0   4
-</span><span class='line'>0   0   0   0   0       / \      0   0   2                0   0   0
-</span><span class='line'>                                 0   0   0</span></code></pre></td></tr></table></div></figure>
+<h2>ON THE MASTER INSTANCE</h2>
 
+<h3>Installation</h3>
 
-<p>We can represent a sparse matrix in a relational database as a table <code>matrix_name(row_num, col_num, value)</code>.
-Each non-zero cell in the matrix is represnted as a record (i, j, value) in the table.</p>
+<p>Install <code>ganglia-gmond</code>, <code>ganglia-gmetad</code> and <code>ganglia-web</code>.</p>
 
-<p>Here&rsquo;s how to do the multiplication. First, create the tables:</p>
+<pre><code>sudo yum install ganglia-gmond ganglia-gmetad ganglia-web
+</code></pre>
+
+<h3>Edit <code>ganglia</code> configuration files</h3>
+
+<pre><code>sudo vim /etc/ganglia/gmond.conf 
+</code></pre>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -133,23 +130,77 @@ Each non-zero cell in the matrix is represnted as a record (i, j, value) in the 
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">a</span> <span class="p">(</span>
-</span><span class='line'><span class="n">row_num</span> <span class="nb">INT</span><span class="p">,</span>
-</span><span class='line'><span class="n">col_num</span> <span class="nb">INT</span><span class="p">,</span>
-</span><span class='line'><span class="n">value</span> <span class="nb">INT</span><span class="p">,</span>
-</span><span class='line'><span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">(</span><span class="n">row_num</span><span class="p">,</span> <span class="n">col_num</span><span class="p">)</span>
-</span><span class='line'><span class="p">);</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>.
+</span><span class='line'>cluster {
+</span><span class='line'>  name = "ganglia-test"
+</span><span class='line'>  .
+</span><span class='line'>  .
+</span><span class='line'>}
 </span><span class='line'>
-</span><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">b</span> <span class="p">(</span>
-</span><span class='line'><span class="n">row_num</span> <span class="nb">INT</span><span class="p">,</span>
-</span><span class='line'><span class="n">col_num</span> <span class="nb">INT</span><span class="p">,</span>
-</span><span class='line'><span class="n">value</span> <span class="nb">INT</span><span class="p">,</span>
-</span><span class='line'><span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">(</span><span class="n">row_num</span><span class="p">,</span> <span class="n">col_num</span><span class="p">)</span>
-</span><span class='line'><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>udp_send_channel {
+</span><span class='line'>  host = PRIVATE.IP.ADDRESS.MASTER
+</span><span class='line'>  port = 8649
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>udp_recv_channel {
+</span><span class='line'>  port = 8649
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>tcp_accept_channel {
+</span><span class='line'>  port = 8649
+</span><span class='line'>} 
+</span><span class='line'>.
+</span><span class='line'>.</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Next, insert values into the tables:</p>
+<pre><code>sudo vim /etc/ganglia/gmetad.conf 
+</code></pre>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>.
+</span><span class='line'>data_source "ganglia-test” PRIVATE.IP.ADDRESS.MASTER
+</span><span class='line'>.
+</span><span class='line'>.</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Edit apache httpd configuration files</h3>
+
+<pre><code>sudo vim /etc/httpd/conf/httpd.conf  
+</code></pre>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>.
+</span><span class='line'>&lt;Directory "/usr/share/ganglia">
+</span><span class='line'>  Require all granted
+</span><span class='line'>&lt;/Directory>
+</span><span class='line'>.
+</span><span class='line'>.</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>sudo vim /etc/httpd/conf.d/ganglia.conf 
+</code></pre>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -161,20 +212,40 @@ Each non-zero cell in the matrix is represnted as a record (i, j, value) in the 
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">a</span> <span class="k">VALUES</span>
-</span><span class='line'><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-</span><span class='line'><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
-</span><span class='line'><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-</span><span class='line'><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>.
+</span><span class='line'>Alias /ganglia /usr/share/ganglia
 </span><span class='line'>
-</span><span class='line'><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">b</span> <span class="k">VALUES</span>
-</span><span class='line'><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-</span><span class='line'><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
-</span><span class='line'><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>&lt;Location /ganglia>
+</span><span class='line'>  Order deny,allow
+</span><span class='line'>  Allow from all
+</span><span class='line'>  Allow from 127.0.0.1
+</span><span class='line'>  Allow from ::1
+</span><span class='line'>&lt;/Location> 
+</span><span class='line'>.
+</span><span class='line'>.</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Finally, perform the multiplication using the following query:</p>
+<h3>Start daemons</h3>
+
+<pre><code>sudo service gmetad start
+sudo service gmond start  
+sudo service httpd start
+</code></pre>
+
+<h2>ON THE SLAVE INSTANCES</h2>
+
+<h3>Installation</h3>
+
+<pre><code>sudo yum install ganglia-gmond
+</code></pre>
+
+<h3>Edit <code>ganglia</code> configuration files</h3>
+
+<pre><code>sudo vim /etc/ganglia/gmond.conf 
+</code></pre>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -183,19 +254,61 @@ Each non-zero cell in the matrix is represnted as a record (i, j, value) in the 
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="n">a</span><span class="p">.</span><span class="n">row_num</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">col_num</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">value</span><span class="o">*</span><span class="n">b</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
-</span><span class='line'><span class="k">FROM</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
-</span><span class='line'><span class="k">WHERE</span> <span class="n">a</span><span class="p">.</span><span class="n">col_num</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">row_num</span>
-</span><span class='line'><span class="k">GROUP</span> <span class="k">BY</span> <span class="n">a</span><span class="p">.</span><span class="n">row_num</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">col_num</span><span class="p">;</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>.
+</span><span class='line'>globals {
+</span><span class='line'>  .
+</span><span class='line'>  .
+</span><span class='line'>  deaf = yes
+</span><span class='line'>  .
+</span><span class='line'>  .
+</span><span class='line'>} 
 </span><span class='line'>
-</span><span class='line'><span class="mi">2</span><span class="o">|</span><span class="mi">2</span><span class="o">|</span><span class="mi">21</span>
-</span><span class='line'><span class="mi">3</span><span class="o">|</span><span class="mi">3</span><span class="o">|</span><span class="mi">4</span>
-</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>cluster {
+</span><span class='line'>  name = "ganglia-test"
+</span><span class='line'>  .
+</span><span class='line'>  .
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>udp_send_channel {
+</span><span class='line'>  host = 172.31.14.61
+</span><span class='line'>  port = 8649
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>udp_recv_channel {
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>tcp_accept_channel {
+</span><span class='line'>}
+</span><span class='line'>.
+</span><span class='line'>.</span></code></pre></td></tr></table></div></figure>
 
 
-<p>To see how this query works, remember the formula for cell (i,j) of the product. It is the sum of a(i,k)*b(k,j) for all k.
-The <code>JOIN</code> condition <code>a.col_num = b.row_num</code> makes sure that both <code>a.value</code> and <code>b.value</code> has the same k.
-The <code>GROUP BY</code> clause makes sure that we sum over all k&rsquo;s.</p>
+<h3>Start daemons</h3>
+
+<pre><code>sudo service gmond start  
+</code></pre>
 </div>
 
 
@@ -218,12 +331,12 @@ The <code>GROUP BY</code> clause makes sure that we sum over all k&rsquo;s.</p>
   
 
 
-<time datetime="2013-06-07T21:57:00+05:30" pubdate data-updated="true">Jun 7<span>th</span>, 2013</time>
+<time datetime="2013-11-23T13:54:00+05:30" pubdate data-updated="true">Nov 23<span>rd</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/categories/how-to/'>how-to</a>, <a class='category' href='/categories/sql/'>sql</a>
+    <a class='category' href='/categories/aws/'>aws</a>, <a class='category' href='/categories/how-to/'>how-to</a>
   
 </span>
 
@@ -232,7 +345,7 @@ The <code>GROUP BY</code> clause makes sure that we sum over all k&rsquo;s.</p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://notes.mindprince.in/2013/06/07/sparse-matrix-multiplication-using-sql.html" data-via="mindprince" data-counturl="http://notes.mindprince.in/2013/06/07/sparse-matrix-multiplication-using-sql.html" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://notes.mindprince.in/2013/11/23/setup-ganglia-monitoring-on-your-amazon-ec2-clusters.html" data-via="mindprince" data-counturl="http://notes.mindprince.in/2013/11/23/setup-ganglia-monitoring-on-your-amazon-ec2-clusters.html" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -243,10 +356,10 @@ The <code>GROUP BY</code> clause makes sure that we sum over all k&rsquo;s.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2013/06/06/search-twitter-from-command-line.html" title="Previous Post: Search twitter from command-line">&laquo; Search twitter from command-line</a>
+        <a class="basic-alignment left" href="/2013/10/20/how-to-transfer-files-from-mac-to-ipad-without-itunes.html" title="Previous Post: How to transfer files from Mac to iPad without iTunes">&laquo; How to transfer files from Mac to iPad without iTunes</a>
       
       
-        <a class="basic-alignment right" href="/2013/06/19/sharing-an-internet-connection-from-your-computer-to-your-mobile-device.html" title="Next Post: Sharing an internet connection from your computer to your mobile device">Sharing an internet connection from your computer to your mobile device &raquo;</a>
+        <a class="basic-alignment right" href="/2014/01/04/notes-on-apache-log4j.html" title="Next Post: Notes on Apache log4j">Notes on Apache log4j &raquo;</a>
       
     </p>
   </footer>
@@ -361,8 +474,8 @@ The <code>GROUP BY</code> clause makes sure that we sum over all k&rsquo;s.</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://notes.mindprince.in/2013/06/07/sparse-matrix-multiplication-using-sql.html';
-        var disqus_url = 'http://notes.mindprince.in/2013/06/07/sparse-matrix-multiplication-using-sql.html';
+        var disqus_identifier = 'http://notes.mindprince.in/2013/11/23/setup-ganglia-monitoring-on-your-amazon-ec2-clusters.html';
+        var disqus_url = 'http://notes.mindprince.in/2013/11/23/setup-ganglia-monitoring-on-your-amazon-ec2-clusters.html';
         var disqus_script = 'embed.js';
       
     (function () {

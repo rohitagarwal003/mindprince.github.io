@@ -5,11 +5,22 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Fixing UnicodeDecodeError in Python - Rohit Agarwal's Notes</title>
+  <title>Rohit Agarwal's Notes</title>
   <meta name="author" content="Rohit Agarwal">
 
   
-  <meta name="description" content="Understanding unicode, string encodings, utf-8 and ascii in python.">
+  <meta name="description" content="1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+&gt;&gt;&gt; a = &quot;He said, “Hi, there.” She didn&#39;t reply.&quot; &gt;&gt;&gt; type(a)
+&lt;type &#39;str&#39;&gt; &gt;& &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +29,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://notes.mindprince.in/2013/05/28/fixing-unicodedecodeerror-in-python.html">
+  <link rel="canonical" href="http://notes.mindprince.in/page/3/index.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Rohit Agarwal's Notes" type="application/atom+xml">
@@ -73,12 +84,15 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">Fixing UnicodeDecodeError in Python</h1>
+      <h1 class="entry-title"><a href="/2013/05/28/fixing-unicodedecodeerror-in-python.html">Fixing UnicodeDecodeError in Python</a></h1>
     
     
       <p class="meta">
@@ -101,7 +115,7 @@
   </header>
 
 
-<div class="entry-content">
+  <div class="entry-content">
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -255,67 +269,20 @@
 
 <p>Note this is an <code>UnicodeEncodeError</code> and not a <code>UnicodeDecodeError</code>. We can&rsquo;t encode a unicode object which contains characters outside of ascii range to ascii encoding.</p>
 </div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Rohit Agarwal</span></span>
-
-      
-
-
-
-
-
-
-
-
   
 
 
-<time datetime="2013-05-28T21:09:00+05:30" pubdate data-updated="true">May 28<span>th</span>, 2013</time>
-      
-
-<span class="categories">
+    </article>
   
-    <a class='category' href='/categories/coding/'>coding</a>, <a class='category' href='/categories/python/'>python</a>, <a class='category' href='/categories/troubleshoot/'>troubleshoot</a>
-  
-</span>
-
-
-    </p>
+  <div class="pagination">
     
-      <div class="sharing">
-  
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://notes.mindprince.in/2013/05/28/fixing-unicodedecodeerror-in-python.html" data-via="mindprince" data-counturl="http://notes.mindprince.in/2013/05/28/fixing-unicodedecodeerror-in-python.html" >Tweet</a>
-  
-  
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-</div>
-
+    <a href="/archives">Archives</a>
     
-    <p class="meta">
-      
-      
-        <a class="basic-alignment right" href="/2013/05/29/octopress-and-github-wtf-is-going-on-with-the-branches.html" title="Next Post: Octopress and Github: WTF is going on with the branches?">Octopress and Github: WTF is going on with the branches? &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a class="next" href="/page/2/">Newer &rarr;</a>
+    
+  </div>
 </div>
-  </section>
-
-</div>
-
 <aside class="sidebar">
   
     <section>
@@ -360,7 +327,7 @@
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/mindprince">@mindprince</a> on GitHub
@@ -401,7 +368,6 @@
   
 </aside>
 
-
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -416,10 +382,7 @@
       var disqus_shortname = 'notes-mindprince';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://notes.mindprince.in/2013/05/28/fixing-unicodedecodeerror-in-python.html';
-        var disqus_url = 'http://notes.mindprince.in/2013/05/28/fixing-unicodedecodeerror-in-python.html';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

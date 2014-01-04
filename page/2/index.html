@@ -9,14 +9,7 @@
   <meta name="author" content="Rohit Agarwal">
 
   
-  <meta name="description" content="a and b are two sparse matrices. We want to perform a * b as shown below: 1
-2
-3
-4
-5
-0 1 0 0 9 1 0 0 0 0 0
-0 0 3 0 0 \ / 0 0 0 ----- 0 21 0
-0 0 0 2 0 &hellip;">
+  <meta name="description" content="File handling is a very common task. Here are snippets of code I use to perform various file handling operations in Python, Java and C. Reading a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +75,222 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/06/29/file-handling-in-python-java-and-c.html">File handling in Python, Java and C</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-29T17:30:00+05:30" pubdate data-updated="true">Jun 29<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>File handling is a very <a href="/categories/common-tasks/">common task</a>. Here are snippets of code I use to perform various file handling operations in Python, Java and C.</p>
+
+<h2>Reading a file in Python</h2>
+
+<h3>Reading a file at once</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">text</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span><span class='line'>        <span class="c"># text is a string which contains all the text in the file.</span>
+</span><span class='line'>        <span class="c"># this may cause problems with very big files.</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c"># do something with text</span>
+</span><span class='line'>        <span class="k">print</span> <span class="n">text</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;IOError: </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">strerror</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Reading a file line by line</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>            <span class="c"># line is a string</span>
+</span><span class='line'>            <span class="c"># a newline character (\n) is present at the end of the string</span>
+</span><span class='line'>            <span class="c"># and is only omitted on the last line of the file if the</span>
+</span><span class='line'>            <span class="c"># file doesn&#39;t end in a newline.</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="c"># do something with line</span>
+</span><span class='line'>            <span class="k">print</span> <span class="n">line</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;IOError: </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">strerror</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Reading a file word by word</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+</span><span class='line'>                <span class="c"># do something with word</span>
+</span><span class='line'>                <span class="k">print</span> <span class="n">word</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;IOError: </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">strerror</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Reading a file character by character</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">character</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">character</span><span class="p">:</span>
+</span><span class='line'>                <span class="c"># do something with character</span>
+</span><span class='line'>                <span class="k">print</span> <span class="n">character</span>
+</span><span class='line'>            <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>                <span class="c"># end-of-file reached</span>
+</span><span class='line'>                <span class="k">break</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;IOError: </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">strerror</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Writing a file in Python</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/path/to/file/filename.txt&quot;</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>    <span class="c"># write to the file using f.write()</span>
+</span><span class='line'>    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;Whatever you want to write.</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;Really, anything.</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2013/06/29/file-handling-in-python-java-and-c.html">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/06/19/sharing-an-internet-connection-from-your-computer-to-your-mobile-device.html">Sharing an internet connection from your computer to your mobile device</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-19T00:13:00+05:30" pubdate data-updated="true">Jun 19<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Recently, I explored how to share an internet connection from computers running Windows or Mac OS X or Linux to mobile devices running iOS or Android.</p>
+
+<p>Here&rsquo;s the summary:</p>
+
+<p>Unrooted Android devices don&rsquo;t support ad-hoc mode (<a href="https://code.google.com/p/android/issues/detail?id=82">https://code.google.com/p/android/issues/detail?id=82</a>) i.e. they don&rsquo;t see ad-hoc WiFi networks.</p>
+
+<p>iOS devices support ad-hoc mode i.e. they can see ad-hoc WiFi networks.</p>
+
+<p>Now, if you are on a Mac and you want to share your internet connection, you follow the steps outlined here: <a href="http://support.apple.com/kb/PH3853">http://support.apple.com/kb/PH3853</a>, this creates a WiFi network in Infrastructure mode which is visible to both iOS and Android devices and you can access the internet on these devices using this network.</p>
+
+<p>You can create an ad-hoc network on a Mac by following these steps: <a href="http://support.apple.com/kb/PH3771">http://support.apple.com/kb/PH3771</a>. But this network is not visible to unrooted Android devices and iOS devices were not able to access the internet even after connecting to this network. So, don&rsquo;t do this.</p>
+
+<p>If you are on a PC (Windows 7 or later), you can use <a href="http://www.connectify.me/hotspot/">Connectify Hotspot</a> to create a hotspot in Access Point Mode which is visible to both Android and iOS devices and access the internet on these devices using this hotspot. However, if you are on Windows XP or Vista, your Connectify hotspot will operate in ad-hoc mode and will not work with unrooted Android devices [<a href="http://support.connectify.me/entries/20307637-Does-Connectify-Hotspot-run-on-Windows-Vista-or-Windows-XP-">1</a>] [<a href="http://support.connectify.me/entries/20316691-access-point-mode-vs-ad-hoc-mode">2</a>].</p>
+
+<p>If you don&rsquo;t want to use Connectify Hotspot, you can create an ad-hoc network by following these steps: <a href="http://windows.microsoft.com/en-in/windows7/set-up-a-computer-to-computer-ad-hoc-network">http://windows.microsoft.com/en-in/windows7/set-up-a-computer-to-computer-ad-hoc-network</a>. This network is not visible to unrooted Android devices but is visible to iOS devices and they can access the internet using this network.</p>
+
+<p>If you are on a PC running Ubuntu, you can create an ad-hoc network by going to the <code>Network</code> menu and then clicking <code>Create New Wireless Network</code>. This network is not visible to unrooted Android devices but is visible to iOS devices and they can access the internet using this network.</p>
+
+<p>I don&rsquo;t know of a way to create a WiFi network on an Ubuntu machine which is visible to unrooted Android devices.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -431,195 +640,9 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2013/05/28/fixing-unicodedecodeerror-in-python.html">Fixing UnicodeDecodeError in Python</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-28T21:09:00+05:30" pubdate data-updated="true">May 28<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="s">&quot;He said, “Hi, there.” She didn&#39;t reply.&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-</span><span class='line'><span class="go">&lt;type &#39;str&#39;&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
-</span><span class='line'><span class="go">&quot;He said, \xe2\x80\x9cHi, there.\xe2\x80\x9d She didn&#39;t reply.&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">a</span>
-</span><span class='line'><span class="go">He said, “Hi, there.” She didn&#39;t reply.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>a</code> is a string encoded in utf-8.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">UnicodeDecodeError</span>: <span class="n">&#39;ascii&#39; codec can&#39;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This didn&rsquo;t work because the default encoding in python in ascii. So, python was not able to decode <code>a</code> assuming ascii encoding.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-</span><span class='line'><span class="go">&lt;type &#39;unicode&#39;&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span>
-</span><span class='line'><span class="go">u&quot;He said, \u201cHi, there.\u201d She didn&#39;t reply.&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">b</span>
-</span><span class='line'><span class="go">He said, “Hi, there.” She didn&#39;t reply.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>b</code> is not a string. It is a unicode object. I think it has no encoding. You can encode it in different encodings.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-</span><span class='line'><span class="go">&lt;type &#39;str&#39;&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span>
-</span><span class='line'><span class="go">&quot;He said, \xe2\x80\x9cHi, there.\xe2\x80\x9d She didn&#39;t reply.&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">c</span>
-</span><span class='line'><span class="go">He said, “Hi, there.” She didn&#39;t reply.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>c</code> is now same as <code>a</code>. It is a string encoded in utf-8. We created it by encoding a unicode object.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">UnicodeDecodeError</span>: <span class="n">&#39;ascii&#39; codec can&#39;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>a</code> is already encoded in utf-8. What happens here is that python first tries to decode <code>a</code> and then encode <code>a</code>. But decoding <code>a</code> fails because default encoding is assume to be ascii.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-</span><span class='line'><span class="go">&lt;type &#39;unicode&#39;&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span>
-</span><span class='line'><span class="go">u&quot;He said, \u201cHi, there.\u201d She didn&#39;t reply.&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">e</span>
-</span><span class='line'><span class="go">He said, “Hi, there.” She didn&#39;t reply.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now, <code>e</code> is same as <code>b</code>. It is a unicode object.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;ascii&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">UnicodeDecodeError</span>: <span class="n">&#39;ascii&#39; codec can&#39;t decode byte 0xe2 in position 9: ordinal not in range(128)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Just to show what we have been saying earlier.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;ascii&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">UnicodeEncodeError</span>: <span class="n">&#39;ascii&#39; codec can&#39;t encode character u&#39;\u201c&#39; in position 9: ordinal not in range(128)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note this is an <code>UnicodeEncodeError</code> and not a <code>UnicodeDecodeError</code>. We can&rsquo;t encode a unicode object which contains characters outside of ascii range to ascii encoding.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/page/3/">&larr; Older</a>
     
     <a href="/archives">Archives</a>
     
@@ -646,6 +669,14 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/01/04/notes-on-apache-log4j.html">Notes on Apache log4j</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/11/23/setup-ganglia-monitoring-on-your-amazon-ec2-clusters.html">Setup ganglia monitoring on your Amazon EC2 clusters</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/10/20/how-to-transfer-files-from-mac-to-ipad-without-itunes.html">How to transfer files from Mac to iPad without iTunes</a>
       </li>
     
@@ -655,14 +686,6 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
     
       <li class="post">
         <a href="/2013/06/30/command-line-arguments-in-python-java-and-c.html">Command-line arguments in Python, Java and C</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/06/29/file-handling-in-python-java-and-c.html">File handling in Python, Java and C</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/06/19/sharing-an-internet-connection-from-your-computer-to-your-mobile-device.html">Sharing an internet connection from your computer to your mobile device</a>
       </li>
     
   </ul>
@@ -715,7 +738,7 @@ It then creates a new directory <code>_deploy/</code> and initializes a new git 
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Rohit Agarwal -
+  Copyright &copy; 2014 - Rohit Agarwal -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

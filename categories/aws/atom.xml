@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: aws | Rohit Agarwal's Notes]]></title>
+  <link href="http://notes.mindprince.in/categories/aws/atom.xml" rel="self"/>
+  <link href="http://notes.mindprince.in/"/>
+  <updated>2014-01-04T13:47:39+05:30</updated>
+  <id>http://notes.mindprince.in/</id>
+  <author>
+    <name><![CDATA[Rohit Agarwal]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Setup ganglia monitoring on your Amazon EC2 clusters]]></title>
+    <link href="http://notes.mindprince.in/2013/11/23/setup-ganglia-monitoring-on-your-amazon-ec2-clusters.html"/>
+    <updated>2013-11-23T13:54:00+05:30</updated>
+    <id>http://notes.mindprince.in/2013/11/23/setup-ganglia-monitoring-on-your-amazon-ec2-clusters</id>
+    <content type="html"><![CDATA[<p>I started four instances running <code>Amazon Linux AMI 2013.09.1 - ami-4296c310 (64-bit)</code> in the Singapore region <code>ap-southeast-1</code>. The security group for these instances allowed inbound SSH and HTTP from my IP address and all traffic from other instances in the same security group.</p>
+
+<h2>ON THE MASTER INSTANCE</h2>
+
+<h3>Installation</h3>
+
+<p>Install <code>ganglia-gmond</code>, <code>ganglia-gmetad</code> and <code>ganglia-web</code>.</p>
+
+<pre><code>sudo yum install ganglia-gmond ganglia-gmetad ganglia-web
+</code></pre>
+
+<h3>Edit <code>ganglia</code> configuration files</h3>
+
+<pre><code>sudo vim /etc/ganglia/gmond.conf 
+</code></pre>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>.
+</span><span class='line'>cluster {
+</span><span class='line'>  name = &ldquo;ganglia-test&rdquo;
+</span><span class='line'>  .
+</span><span class='line'>  .
+</span><span class='line'>}&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>udp_send_channel {
+</span><span class='line'>  host = PRIVATE.IP.ADDRESS.MASTER
+</span><span class='line'>  port = 8649
+</span><span class='line'>}&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>udp_recv_channel {
+</span><span class='line'>  port = 8649
+</span><span class='line'>}&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>tcp_accept_channel {
+</span><span class='line'>  port = 8649
+</span><span class='line'>}
+</span><span class='line'>.
+</span><span class='line'>.</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<pre><code>sudo vim /etc/ganglia/gmetad.conf 
+</code></pre>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>.
+</span><span class='line'>data_source &ldquo;ganglia-test” PRIVATE.IP.ADDRESS.MASTER
+</span><span class='line'>.
+</span><span class='line'>.</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Edit apache httpd configuration files</h3>
+
+<pre><code>sudo vim /etc/httpd/conf/httpd.conf  
+</code></pre>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>.
+</span><span class='line'>&lt;Directory "/usr/share/ganglia">
+</span><span class='line'>  Require all granted
+</span><span class='line'>&lt;/Directory>
+</span><span class='line'>.
+</span><span class='line'>.</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<pre><code>sudo vim /etc/httpd/conf.d/ganglia.conf 
+</code></pre>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>.
+</span><span class='line'>Alias /ganglia /usr/share/ganglia&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&lt;Location /ganglia>
+</span><span class='line'>  Order deny,allow
+</span><span class='line'>  Allow from all
+</span><span class='line'>  Allow from 127.0.0.1
+</span><span class='line'>  Allow from ::1
+</span><span class='line'>&lt;/Location>
+</span><span class='line'>.
+</span><span class='line'>.</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Start daemons</h3>
+
+<pre><code>sudo service gmetad start
+sudo service gmond start  
+sudo service httpd start
+</code></pre>
+
+<h2>ON THE SLAVE INSTANCES</h2>
+
+<h3>Installation</h3>
+
+<pre><code>sudo yum install ganglia-gmond
+</code></pre>
+
+<h3>Edit <code>ganglia</code> configuration files</h3>
+
+<pre><code>sudo vim /etc/ganglia/gmond.conf 
+</code></pre>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>.
+</span><span class='line'>globals {
+</span><span class='line'>  .
+</span><span class='line'>  .
+</span><span class='line'>  deaf = yes
+</span><span class='line'>  .
+</span><span class='line'>  .
+</span><span class='line'>}&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>cluster {
+</span><span class='line'>  name = &ldquo;ganglia-test&rdquo;
+</span><span class='line'>  .
+</span><span class='line'>  .
+</span><span class='line'>}&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>udp_send_channel {
+</span><span class='line'>  host = 172.31.14.61
+</span><span class='line'>  port = 8649
+</span><span class='line'>}&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>udp_recv_channel {
+</span><span class='line'>}&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>tcp_accept_channel {
+</span><span class='line'>}
+</span><span class='line'>.
+</span><span class='line'>.</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Start daemons</h3>
+
+<pre><code>sudo service gmond start  
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

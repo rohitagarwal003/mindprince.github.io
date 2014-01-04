@@ -4,7 +4,7 @@
   <title><![CDATA[Rohit Agarwal's Notes]]></title>
   <link href="http://notes.mindprince.in/atom.xml" rel="self"/>
   <link href="http://notes.mindprince.in/"/>
-  <updated>2013-10-21T19:22:31+05:30</updated>
+  <updated>2014-01-04T13:47:39+05:30</updated>
   <id>http://notes.mindprince.in/</id>
   <author>
     <name><![CDATA[Rohit Agarwal]]></name>
@@ -12,6 +12,583 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Notes on Apache log4j]]></title>
+    <link href="http://notes.mindprince.in/2014/01/04/notes-on-apache-log4j.html"/>
+    <updated>2014-01-04T12:20:00+05:30</updated>
+    <id>http://notes.mindprince.in/2014/01/04/notes-on-apache-log4j</id>
+    <content type="html"><![CDATA[<p>Setup a working directory. All the following commands are run from this directory. All relative file locations are relative to this directory.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir log-test
+</span><span class='line'>$ cd log-test</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Create a test java program.</p>
+
+<figure class='code'><figcaption><span>com/mindprince/MyLogTest.java </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">mindprince</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.apache.log4j.Logger</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyLogTest</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">static</span> <span class="n">Logger</span> <span class="n">LOG</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">MyLogTest</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">LOG</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;Enter main method.&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">FooBarBaz</span><span class="o">.</span><span class="na">foo</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">FooBarBaz</span><span class="o">.</span><span class="na">bar</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">FooBarBaz</span><span class="o">.</span><span class="na">baz</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">LOG</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;Exit main method.&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">class</span> <span class="nc">FooBarBaz</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">static</span> <span class="n">Logger</span> <span class="n">LOG</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">FooBarBaz</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">foo</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">LOG</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;Enter foo method.&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">LOG</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&quot;This is information from foo.&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">LOG</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;Exit foo method.&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">bar</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">LOG</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;Enter bar method.&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">LOG</span><span class="o">.</span><span class="na">warn</span><span class="o">(</span><span class="s">&quot;This is a warning from bar.&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">LOG</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;Exit bar method.&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">baz</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">LOG</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;Enter baz method.&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">LOG</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&quot;This error occurred in baz.&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">LOG</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;Exit baz method.&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Compile the program.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ export CLASSPATH=$CLASSPATH:.:/path/to/log4j-1.2.17.jar
+</span><span class='line'>$ javac com/mindprince/MyLogTest.java</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Create a <code>log4j.properties</code> file in the current working directory (<code>log-test/</code>). Log4j will automatically pick this up as this directory is in the classpath.</p>
+
+<figure class='code'><figcaption><span>log4j.properties </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='properties'><span class='line'><span class="c"># Root logger option</span>
+</span><span class='line'><span class="na">log4j.rootLogger</span><span class="o">=</span><span class="s">INFO, stdout</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Direct log messages to stdout</span>
+</span><span class='line'><span class="na">log4j.appender.stdout</span><span class="o">=</span><span class="s">org.apache.log4j.ConsoleAppender</span>
+</span><span class='line'><span class="na">log4j.appender.stdout.layout</span><span class="o">=</span><span class="s">org.apache.log4j.PatternLayout</span>
+</span><span class='line'><span class="na">log4j.appender.stdout.layout.ConversionPattern</span><span class="o">=</span><span class="s">%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %c %x - %m%n</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ java com.mindprince.MyLogTest
+</span><span class='line'>2013-12-12 14:41:52 [main] INFO  com.mindprince.FooBarBaz  - This is information from foo.
+</span><span class='line'>2013-12-12 14:41:52 [main] WARN  com.mindprince.FooBarBaz  - This is a warning from bar.
+</span><span class='line'>2013-12-12 14:41:52 [main] ERROR com.mindprince.FooBarBaz  - This error occurred in baz.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sometimes it is useful to see log4j&rsquo;s internal debug information.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ java -Dlog4j.debug=true com.mindprince.MyLogTest
+</span><span class='line'>log4j: Trying to find [log4j.xml] using context classloader sun.misc.Launcher$AppClassLoader@1372a1a.
+</span><span class='line'>log4j: Trying to find [log4j.xml] using sun.misc.Launcher$AppClassLoader@1372a1a class loader.
+</span><span class='line'>log4j: Trying to find [log4j.xml] using ClassLoader.getSystemResource().
+</span><span class='line'>log4j: Trying to find [log4j.properties] using context classloader sun.misc.Launcher$AppClassLoader@1372a1a.
+</span><span class='line'>log4j: Using URL [file:/home/rohita/log-test/log4j.properties] for automatic log4j configuration.
+</span><span class='line'>log4j: Reading configuration from URL file:/home/rohita/log-test/log4j.properties
+</span><span class='line'>log4j: Parsing for [root] with value=[INFO, stdout].
+</span><span class='line'>log4j: Level token is [INFO].
+</span><span class='line'>log4j: Category root set to INFO
+</span><span class='line'>log4j: Parsing appender named "stdout".
+</span><span class='line'>log4j: Parsing layout options for "stdout".
+</span><span class='line'>log4j: Setting property [conversionPattern] to [%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %c %x - %m%n].
+</span><span class='line'>log4j: End of parsing for "stdout".
+</span><span class='line'>log4j: Parsed "stdout" options.
+</span><span class='line'>log4j: Finished configuring.
+</span><span class='line'>2013-12-12 14:42:50 [main] INFO  com.mindprince.FooBarBaz  - This is information from foo.
+</span><span class='line'>2013-12-12 14:42:50 [main] WARN  com.mindprince.FooBarBaz  - This is a warning from bar.
+</span><span class='line'>2013-12-12 14:42:50 [main] ERROR com.mindprince.FooBarBaz  - This error occurred in baz.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To log messages to a file instead of the console use the following properties:</p>
+
+<figure class='code'><figcaption><span>/path/to/log4j-tofile.properties </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='properties'><span class='line'><span class="c"># Root logger option</span>
+</span><span class='line'><span class="na">log4j.rootLogger</span><span class="o">=</span><span class="s">DEBUG, file</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Direct log messages to a log file</span>
+</span><span class='line'><span class="na">log4j.appender.file</span><span class="o">=</span><span class="s">org.apache.log4j.RollingFileAppender</span>
+</span><span class='line'><span class="na">log4j.appender.file.File</span><span class="o">=</span><span class="s">/path/to/logging.log</span>
+</span><span class='line'><span class="na">log4j.appender.file.MaxFileSize</span><span class="o">=</span><span class="s">1MB</span>
+</span><span class='line'><span class="c"># Keep one backup file</span>
+</span><span class='line'><span class="na">log4j.appender.file.MaxBackupIndex</span><span class="o">=</span><span class="s">1</span>
+</span><span class='line'><span class="na">log4j.appender.file.layout</span><span class="o">=</span><span class="s">org.apache.log4j.PatternLayout</span>
+</span><span class='line'><span class="na">log4j.appender.file.layout.ConversionPattern</span><span class="o">=</span><span class="s">%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %c %x - %m%n</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can manually specify the location of your log4j properties file using <code>-Dlog4j.configuration</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ java -Dlog4j.configuration=file:/path/to/log4j-tofile.properties com.mindprince.MyLogTest
+</span><span class='line'>
+</span><span class='line'>$ cat /path/to/logging.log
+</span><span class='line'>********************************************************************************
+</span><span class='line'>2013-12-12 14:44:07 [main] DEBUG com.mindprince.MyLogTest  - Enter main method.
+</span><span class='line'>2013-12-12 14:44:07 [main] DEBUG com.mindprince.FooBarBaz  - Enter foo method.
+</span><span class='line'>2013-12-12 14:44:07 [main] INFO  com.mindprince.FooBarBaz  - This is information from foo.
+</span><span class='line'>2013-12-12 14:44:07 [main] DEBUG com.mindprince.FooBarBaz  - Exit foo method.
+</span><span class='line'>2013-12-12 14:44:07 [main] DEBUG com.mindprince.FooBarBaz  - Enter bar method.
+</span><span class='line'>2013-12-12 14:44:07 [main] WARN  com.mindprince.FooBarBaz  - This is a warning from bar.
+</span><span class='line'>2013-12-12 14:44:07 [main] DEBUG com.mindprince.FooBarBaz  - Exit bar method.
+</span><span class='line'>2013-12-12 14:44:07 [main] DEBUG com.mindprince.FooBarBaz  - Enter baz method.
+</span><span class='line'>2013-12-12 14:44:07 [main] ERROR com.mindprince.FooBarBaz  - This error occurred in baz.
+</span><span class='line'>2013-12-12 14:44:07 [main] DEBUG com.mindprince.FooBarBaz  - Exit baz method.
+</span><span class='line'>2013-12-12 14:44:07 [main] DEBUG com.mindprince.MyLogTest  - Exit main method.
+</span><span class='line'>********************************************************************************</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sometimes it is useful to change the logging behaviour for particular classes:</p>
+
+<figure class='code'><figcaption><span>/path/to/log4j-selective.properties </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='properties'><span class='line'><span class="c"># Root logger option</span>
+</span><span class='line'><span class="na">log4j.rootLogger</span><span class="o">=</span><span class="s">DEBUG, stdout</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Direct log messages to stdout</span>
+</span><span class='line'><span class="na">log4j.appender.stdout</span><span class="o">=</span><span class="s">org.apache.log4j.ConsoleAppender</span>
+</span><span class='line'><span class="na">log4j.appender.stdout.layout</span><span class="o">=</span><span class="s">org.apache.log4j.PatternLayout</span>
+</span><span class='line'><span class="na">log4j.appender.stdout.layout.ConversionPattern</span><span class="o">=</span><span class="s">%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %c %x - %m%n</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Print only messages of level WARN or above for FooBarBaz</span>
+</span><span class='line'><span class="na">log4j.logger.com.mindprince.FooBarBaz</span><span class="o">=</span><span class="s">WARN</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ java -Dlog4j.configuration=file:/path/to/log4j-selective.properties com.mindprince.MyLogTest
+</span><span class='line'>2013-12-12 14:51:36 [main] DEBUG com.mindprince.MyLogTest  - Enter main method.
+</span><span class='line'>2013-12-12 14:51:36 [main] WARN  com.mindprince.FooBarBaz  - This is a warning from bar.
+</span><span class='line'>2013-12-12 14:51:36 [main] ERROR com.mindprince.FooBarBaz  - This error occurred in baz.
+</span><span class='line'>2013-12-12 14:51:36 [main] DEBUG com.mindprince.MyLogTest  - Exit main method.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I usually log everything to a file but only log important messages to the console:</p>
+
+<figure class='code'><figcaption><span>/path/to/log4j-both.properties </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='properties'><span class='line'><span class="c"># Root logger option</span>
+</span><span class='line'><span class="na">log4j.rootLogger</span><span class="o">=</span><span class="s">DEBUG, stdout, file</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Direct log messages to stdout</span>
+</span><span class='line'><span class="na">log4j.appender.stdout</span><span class="o">=</span><span class="s">org.apache.log4j.ConsoleAppender</span>
+</span><span class='line'><span class="na">log4j.appender.stdout.layout</span><span class="o">=</span><span class="s">org.apache.log4j.PatternLayout</span>
+</span><span class='line'><span class="na">log4j.appender.stdout.layout.ConversionPattern</span><span class="o">=</span><span class="s">%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %c %x - %m%n</span>
+</span><span class='line'><span class="c"># Print only messages of level WARN or above on the console.</span>
+</span><span class='line'><span class="na">log4j.appender.stdout.Threshold</span><span class="o">=</span><span class="s">WARN</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Direct log messages to a log file</span>
+</span><span class='line'><span class="na">log4j.appender.file</span><span class="o">=</span><span class="s">org.apache.log4j.RollingFileAppender</span>
+</span><span class='line'><span class="na">log4j.appender.file.File</span><span class="o">=</span><span class="s">/path/to/messages.log</span>
+</span><span class='line'><span class="na">log4j.appender.file.MaxFileSize</span><span class="o">=</span><span class="s">1MB</span>
+</span><span class='line'><span class="na">log4j.appender.file.MaxBackupIndex</span><span class="o">=</span><span class="s">1</span>
+</span><span class='line'><span class="na">log4j.appender.file.layout</span><span class="o">=</span><span class="s">org.apache.log4j.PatternLayout</span>
+</span><span class='line'><span class="na">log4j.appender.file.layout.ConversionPattern</span><span class="o">=</span><span class="s">%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %c %x - %m%n</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ java -Dlog4j.configuration=file:/path/to/log4j-both.properties com.mindprince.MyLogTest
+</span><span class='line'>2013-12-12 15:10:31 [main] WARN  com.mindprince.FooBarBaz  - This is a warning from bar.
+</span><span class='line'>2013-12-12 15:10:31 [main] ERROR com.mindprince.FooBarBaz  - This error occurred in baz.
+</span><span class='line'>
+</span><span class='line'>$ cat /path/to/messages.log
+</span><span class='line'>********************************************************************************
+</span><span class='line'>2013-12-12 15:10:31 [main] DEBUG com.mindprince.MyLogTest  - Enter main method.
+</span><span class='line'>2013-12-12 15:10:31 [main] DEBUG com.mindprince.FooBarBaz  - Enter foo method.
+</span><span class='line'>2013-12-12 15:10:31 [main] INFO  com.mindprince.FooBarBaz  - This is information from foo.
+</span><span class='line'>2013-12-12 15:10:31 [main] DEBUG com.mindprince.FooBarBaz  - Exit foo method.
+</span><span class='line'>2013-12-12 15:10:31 [main] DEBUG com.mindprince.FooBarBaz  - Enter bar method.
+</span><span class='line'>2013-12-12 15:10:31 [main] WARN  com.mindprince.FooBarBaz  - This is a warning from bar.
+</span><span class='line'>2013-12-12 15:10:31 [main] DEBUG com.mindprince.FooBarBaz  - Exit bar method.
+</span><span class='line'>2013-12-12 15:10:31 [main] DEBUG com.mindprince.FooBarBaz  - Enter baz method.
+</span><span class='line'>2013-12-12 15:10:31 [main] ERROR com.mindprince.FooBarBaz  - This error occurred in baz.
+</span><span class='line'>2013-12-12 15:10:31 [main] DEBUG com.mindprince.FooBarBaz  - Exit baz method.
+</span><span class='line'>2013-12-12 15:10:31 [main] DEBUG com.mindprince.MyLogTest  - Exit main method.
+</span><span class='line'>********************************************************************************</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Setup ganglia monitoring on your Amazon EC2 clusters]]></title>
+    <link href="http://notes.mindprince.in/2013/11/23/setup-ganglia-monitoring-on-your-amazon-ec2-clusters.html"/>
+    <updated>2013-11-23T13:54:00+05:30</updated>
+    <id>http://notes.mindprince.in/2013/11/23/setup-ganglia-monitoring-on-your-amazon-ec2-clusters</id>
+    <content type="html"><![CDATA[<p>I started four instances running <code>Amazon Linux AMI 2013.09.1 - ami-4296c310 (64-bit)</code> in the Singapore region <code>ap-southeast-1</code>. The security group for these instances allowed inbound SSH and HTTP from my IP address and all traffic from other instances in the same security group.</p>
+
+<h2>ON THE MASTER INSTANCE</h2>
+
+<h3>Installation</h3>
+
+<p>Install <code>ganglia-gmond</code>, <code>ganglia-gmetad</code> and <code>ganglia-web</code>.</p>
+
+<pre><code>sudo yum install ganglia-gmond ganglia-gmetad ganglia-web
+</code></pre>
+
+<h3>Edit <code>ganglia</code> configuration files</h3>
+
+<pre><code>sudo vim /etc/ganglia/gmond.conf 
+</code></pre>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>.
+</span><span class='line'>cluster {
+</span><span class='line'>  name = "ganglia-test"
+</span><span class='line'>  .
+</span><span class='line'>  .
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>udp_send_channel {
+</span><span class='line'>  host = PRIVATE.IP.ADDRESS.MASTER
+</span><span class='line'>  port = 8649
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>udp_recv_channel {
+</span><span class='line'>  port = 8649
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>tcp_accept_channel {
+</span><span class='line'>  port = 8649
+</span><span class='line'>} 
+</span><span class='line'>.
+</span><span class='line'>.</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>sudo vim /etc/ganglia/gmetad.conf 
+</code></pre>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>.
+</span><span class='line'>data_source "ganglia-test” PRIVATE.IP.ADDRESS.MASTER
+</span><span class='line'>.
+</span><span class='line'>.</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Edit apache httpd configuration files</h3>
+
+<pre><code>sudo vim /etc/httpd/conf/httpd.conf  
+</code></pre>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>.
+</span><span class='line'>&lt;Directory "/usr/share/ganglia">
+</span><span class='line'>  Require all granted
+</span><span class='line'>&lt;/Directory>
+</span><span class='line'>.
+</span><span class='line'>.</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>sudo vim /etc/httpd/conf.d/ganglia.conf 
+</code></pre>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>.
+</span><span class='line'>Alias /ganglia /usr/share/ganglia
+</span><span class='line'>
+</span><span class='line'>&lt;Location /ganglia>
+</span><span class='line'>  Order deny,allow
+</span><span class='line'>  Allow from all
+</span><span class='line'>  Allow from 127.0.0.1
+</span><span class='line'>  Allow from ::1
+</span><span class='line'>&lt;/Location> 
+</span><span class='line'>.
+</span><span class='line'>.</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Start daemons</h3>
+
+<pre><code>sudo service gmetad start
+sudo service gmond start  
+sudo service httpd start
+</code></pre>
+
+<h2>ON THE SLAVE INSTANCES</h2>
+
+<h3>Installation</h3>
+
+<pre><code>sudo yum install ganglia-gmond
+</code></pre>
+
+<h3>Edit <code>ganglia</code> configuration files</h3>
+
+<pre><code>sudo vim /etc/ganglia/gmond.conf 
+</code></pre>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>.
+</span><span class='line'>globals {
+</span><span class='line'>  .
+</span><span class='line'>  .
+</span><span class='line'>  deaf = yes
+</span><span class='line'>  .
+</span><span class='line'>  .
+</span><span class='line'>} 
+</span><span class='line'>
+</span><span class='line'>cluster {
+</span><span class='line'>  name = "ganglia-test"
+</span><span class='line'>  .
+</span><span class='line'>  .
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>udp_send_channel {
+</span><span class='line'>  host = 172.31.14.61
+</span><span class='line'>  port = 8649
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>udp_recv_channel {
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>tcp_accept_channel {
+</span><span class='line'>}
+</span><span class='line'>.
+</span><span class='line'>.</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Start daemons</h3>
+
+<pre><code>sudo service gmond start  
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to transfer files from Mac to iPad without iTunes]]></title>
