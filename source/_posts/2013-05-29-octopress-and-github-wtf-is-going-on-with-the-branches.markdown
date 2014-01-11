@@ -59,4 +59,4 @@ $ git remote show origin
 
 To summarize, the two branches `source` and `master` on your Github Pages repo correspond to two separate git repositories: one in your `octopress/` directory and another in the `octopress/_deploy/` directory.
 
-The fact that separate git repositories on your local machine can act as different branches of the same repository on github is interesting. It can probably be misused to host more than five private repositories in [Github's Micro plan](https://github.com/plans).
+The fact that separate git repositories on your local machine can act as different branches of the same repository on github is interesting. It can probably be misused to host more than five private repositories in [Github's Micro plan](https://github.com/pricing).
