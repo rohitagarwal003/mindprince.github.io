@@ -4,7 +4,7 @@
   <title><![CDATA[Rohit Agarwal's Notes]]></title>
   <link href="http://notes.mindprince.in/atom.xml" rel="self"/>
   <link href="http://notes.mindprince.in/"/>
-  <updated>2014-01-12T01:53:45+05:30</updated>
+  <updated>2014-01-12T02:02:32+05:30</updated>
   <id>http://notes.mindprince.in/</id>
   <author>
     <name><![CDATA[Rohit Agarwal]]></name>
@@ -428,7 +428,7 @@ The following are the opt-out pages of the major analytics providers:</p>
 
 <p><a href="https://tools.google.com/dlpage/gaoptout">Google Analytics Opt-out Browser Add-on</a> [1]<br/>
 <a href="https://reports.web.analytics.yahoo.com/optout,OptOut.vm">Yahoo Web Analytics Opt-out</a><br/>
-<a href="https://www.kissmetrics.com/user-privacy">KISSmetrics Opt-out</a> [2]
+<a href="https://www.kissmetrics.com/user-privacy">KISSmetrics Opt-out</a> [2]<br/>
 <a href="https://mixpanel.com/optout/">MixPanel Opt-out</a><br/>
 <a href="http://www.convertro.com/opt-out">Converto Opt-out</a><br/>
 <a href="https://ondemand.webtrends.com/support/optout.asp">Webtrends Opt-out</a></p>
@@ -439,7 +439,7 @@ The following are the opt-out pages of the major analytics providers:</p>
 They are a more drastic measure for blocking tracking as they can break the functionality of some web pages.
 It is recommended that you use only one of these as they interfere with each other&rsquo;s working.</p>
 
-<p><a href="https://disconnect.me/">Disconnect</a>
+<p><a href="https://disconnect.me/">Disconnect</a><br/>
 <a href="http://www.ghostery.com/">Ghostery</a><br/>
 <a href="http://abine.com/dntdetail.php">Abine DoNotTrackMe</a></p>
 
