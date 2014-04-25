@@ -1,3 +1,4 @@
-name: Your New Jekyll Site
+name: "Rohit Agarwal's Notes"
 markdown: redcarpet
 pygments: true
+permalink: /:year/:month/:day/:title.html
