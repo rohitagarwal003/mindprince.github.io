@@ -144,6 +144,8 @@ a:visited { color: #a0a; }
   padding: 0 .2em;
 }
 
+/* This helps prevent borders inside borders and double padding in first line */
 .post pre code {
   border: none;
+  padding: 0 0;
 }
