@@ -4,10 +4,10 @@ title: "Opt-Out"
 description: "How to opt out of tracking by advertising networks, analytics services, and social platforms."
 date: 2013-08-19 04:40
 comments: true
-categories: [privacy]
+tags: [privacy]
 ---
 
-##Online Behavioral Advertising
+###Online Behavioral Advertising
 A lot of advertisers are part of self-regulatory programs and let you opt-out from receiving interest-based advertising.
 The following tools let you find out which advertisers have enabled interest-based ads for your browser and opt-out from them.
 These tools use opt-out cookies to store your preferences in your browser.
@@ -23,7 +23,7 @@ You can use the following extensions to preserve the opt-out preferences you hav
 [Protect My Choices browser extension](http://www.aboutads.info/PMC)  
 [Keep My Opt-Outs browser extension](https://code.google.com/p/chrome-opt-out-extension/)
 
-##Analytics
+###Analytics
 Various analytics services provide ways to opt-out from getting tracked by them.
 The following are the opt-out pages of the major analytics providers:
 
@@ -34,7 +34,7 @@ The following are the opt-out pages of the major analytics providers:
 [Converto Opt-out](http://www.convertro.com/opt-out)  
 [Webtrends Opt-out](https://ondemand.webtrends.com/support/optout.asp)
 
-##All-in-one Browser Extensions
+###All-in-one Browser Extensions
 The following extensions block tracking requests from analytics services, advertising networks and social networking sites.
 They are a more drastic measure for blocking tracking as they can break the functionality of some web pages.
 It is recommended that you use only one of these as they interfere with each other's working.

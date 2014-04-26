@@ -3,14 +3,16 @@ layout: post
 title: "File handling in Python, Java and C"
 date: 2013-06-29 17:30
 comments: true
-categories: [common-tasks, java, python, c]
+tags: [common-tasks, java, python, c]
 description: "How to perform common file handling tasks in python, java and c."
 ---
-File handling is a very [common task](/categories/common-tasks/). Here are snippets of code I use to perform various file handling operations in Python, Java and C.
-## Reading a file in Python
 
-### Reading a file at once
-{% codeblock lang:python %}
+File handling is a very [common task](/categories/common-tasks/). Here are snippets of code I use to perform various file handling operations in Python, Java and C.
+
+### Reading a file in Python
+
+#### Reading a file at once
+```python
 try:
     with open("/path/to/file/filename.txt", "r") as f:
         text = f.read()
@@ -21,10 +23,10 @@ try:
         print text
 except IOError as e:
     print "IOError: %s: %s" % (e.filename, e.strerror)
-{% endcodeblock %}
+```
 
-### Reading a file line by line
-{% codeblock lang:python %}
+#### Reading a file line by line
+```python
 try:
     with open("/path/to/file/filename.txt", "r") as f:
         for line in f:
@@ -37,10 +39,10 @@ try:
             print line
 except IOError as e:
     print "IOError: %s: %s" % (e.filename, e.strerror)
-{% endcodeblock %}
+```
 
-### Reading a file word by word
-{% codeblock lang:python %}
+#### Reading a file word by word
+```python
 try:
     with open("/path/to/file/filename.txt", "r") as f:
         for line in f:
@@ -49,10 +51,10 @@ try:
                 print word
 except IOError as e:
     print "IOError: %s: %s" % (e.filename, e.strerror)
-{% endcodeblock %}
+```
 
-### Reading a file character by character
-{% codeblock lang:python %}
+#### Reading a file character by character
+```python
 try:
     with open("/path/to/file/filename.txt", "r") as f:
         while True:
@@ -65,27 +67,25 @@ try:
                 break
 except IOError as e:
     print "IOError: %s: %s" % (e.filename, e.strerror)
-{% endcodeblock %}
+```
 
-## Writing a file in Python
-{% codeblock lang:python %}
+### Writing a file in Python
+```python
 with open("/path/to/file/filename.txt", "w") as f:
     # write to the file using f.write()
     f.write('Whatever you want to write.\n')
     f.write('Really, anything.\n')
-{% endcodeblock %}
-
-<!--more-->
+```
 
 ***
 
-## Reading a file in Java
+### Reading a file in Java
 
-### Reading a file at once
+#### Reading a file at once
 [This question on Stack Overflow](http://stackoverflow.com/questions/3402735/what-is-simplest-way-to-read-a-file-into-string-in-java) shows various ways to do this.
 
-### Reading a file line by line
-{% codeblock lang:java %}
+#### Reading a file line by line
+```java
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
@@ -113,10 +113,10 @@ public class FileLL {
         }
     }
 }
-{% endcodeblock %}
+```
 
-### Reading a file word by word
-{% codeblock lang:java %}
+#### Reading a file word by word
+```java
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
@@ -143,10 +143,10 @@ public class FileWW {
         }
     }
 }
-{% endcodeblock %}
+```
 
-### Reading a file character by character
-{% codeblock lang:java %}
+#### Reading a file character by character
+```java
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -174,10 +174,10 @@ public class FileCC {
         }
     }
 }
-{% endcodeblock %}
+```
 
-## Writing a file in Java
-{% codeblock lang:java %}
+### Writing a file in Java
+```java
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -190,16 +190,16 @@ public class FileW {
         bw.close();
     }
 }
-{% endcodeblock %}
+```
 ***
 
-## Reading a file in C
+### Reading a file in C
 
-### Reading a file at once
+#### Reading a file at once
 I don't know of a straightforward way to do this. Feel free to chime in the comments if you know one.
 
-### Reading a file line by line
-{% codeblock lang:c %}
+#### Reading a file line by line
+```c
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -226,10 +226,10 @@ int main() {
 
     return 0;
 }
-{% endcodeblock %}
+```
 
-### Reading a file word by word
-{% codeblock lang:c %}
+#### Reading a file word by word
+```c
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -252,10 +252,10 @@ int main() {
 
     return 0;
 }
-{% endcodeblock %}
+```
 
-### Reading a file character by character
-{% codeblock lang:c %}
+#### Reading a file character by character
+```c
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -278,10 +278,10 @@ int main() {
 
     return 0;
 }
-{% endcodeblock %}
+```
 
-## Writing a file in C
-{% codeblock lang:c %}
+### Writing a file in C
+```c
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -298,4 +298,4 @@ int main() {
 
     return 0;
 }
-{% endcodeblock %}
+```

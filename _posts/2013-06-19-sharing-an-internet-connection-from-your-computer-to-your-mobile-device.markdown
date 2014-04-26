@@ -4,14 +4,14 @@ title: "Sharing an internet connection from your computer to your mobile device"
 description: "How to share an internet connection from a computer running Windows or Mac OS X or Linux to a device running iOS or Android"
 date: 2013-06-19 00:13
 comments: true
-categories: [how-to]
+tags: [how-to]
 ---
 
 Recently, I explored how to share an internet connection from computers running Windows or Mac OS X or Linux to mobile devices running iOS or Android.
 
 Here's the summary:
 
-Unrooted Android devices don't support ad-hoc mode (https://code.google.com/p/android/issues/detail?id=82) i.e. they don't see ad-hoc WiFi networks.
+Unrooted Android devices don't support ad-hoc mode [https://code.google.com/p/android/issues/detail?id=82](https://code.google.com/p/android/issues/detail?id=82) i.e. they don't see ad-hoc WiFi networks.
 
 iOS devices support ad-hoc mode i.e. they can see ad-hoc WiFi networks.
 

@@ -3,17 +3,18 @@ layout: post
 title: "Octopress and Github: WTF is going on with the branches?"
 date: 2013-05-29 19:50
 comments: true
-categories: [git, github, octopress]
+tags: [git, github, octopress]
 description: "Understanding the local and remote branches of your octopress blog deployed using github pages."
 ---
+
 This blog is powered by Octopress and hosted using Github Pages.
 When I checked the github repository for this blog, I found that there were two branches: `master` and `source`.
 But locally there was only one: `source`.
-{% codeblock %}
 
+```
 $ git branch
 * source
-{% endcodeblock %}
+```
 
 To understand what was going on, I dug up the [docs](http://octopress.org/docs/deploying/github/).
 
@@ -29,7 +30,7 @@ Now, when you do `rake deploy`, the `master` branch of the git repo in `_deploy/
 
 Here are some more details:
 
-{% codeblock %}
+```
 $ cd octopress/  # THE_DIRECTORY_WHERE_YOU_CLONED_OCTOPRESS
 $ git remote show origin
 * remote origin
@@ -41,9 +42,9 @@ $ git remote show origin
     source tracked
   Local ref configured for 'git push':
     source pushes to source (up to date)
-{% endcodeblock %}
+```
 
-{% codeblock %}
+```
 $ cd octopress/_deploy/
 $ git remote show origin
 * remote origin
@@ -55,7 +56,7 @@ $ git remote show origin
     source new (next fetch will store in remotes/origin)
   Local ref configured for 'git push':
     master pushes to master (up to date)
-{% endcodeblock %}
+```
 
 To summarize, the two branches `source` and `master` on your Github Pages repo correspond to two separate git repositories: one in your `octopress/` directory and another in the `octopress/_deploy/` directory.
 

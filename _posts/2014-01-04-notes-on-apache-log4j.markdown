@@ -3,17 +3,20 @@ layout: post
 title: "Notes on Apache log4j"
 date: 2014-01-04 12:20
 comments: true
-categories: common-tasks logging
+tags: common-tasks logging
 description: "This post contains some example log4j.properties files which I use most frequently."
 ---
+
 Setup a working directory. All the following commands are run from this directory. All relative file locations are relative to this directory.
+
 ```
 $ mkdir log-test
 $ cd log-test
 ```
 
-Create a test java program.
-{% codeblock lang:java com/mindprince/MyLogTest.java %}
+Create a test java program `com/mindprince/MyLogTest.java`.
+
+```java
 package com.mindprince;
 
 import org.apache.log4j.Logger;
@@ -51,16 +54,18 @@ class FooBarBaz {
     LOG.debug("Exit baz method.");
   }
 }
-{% endcodeblock %}
+```
 
 Compile the program.
+
 ```
 $ export CLASSPATH=$CLASSPATH:.:/path/to/log4j-1.2.17.jar
 $ javac com/mindprince/MyLogTest.java
 ```
 
 Create a `log4j.properties` file in the current working directory (`log-test/`). Log4j will automatically pick this up as this directory is in the classpath.
-{% codeblock log4j.properties %}
+
+```
 # Root logger option
 log4j.rootLogger=INFO, stdout
 
@@ -68,7 +73,7 @@ log4j.rootLogger=INFO, stdout
 log4j.appender.stdout=org.apache.log4j.ConsoleAppender
 log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
 log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %c %x - %m%n
-{% endcodeblock %}
+```
 
 ```
 $ java com.mindprince.MyLogTest
@@ -78,6 +83,7 @@ $ java com.mindprince.MyLogTest
 ```
 
 Sometimes it is useful to see log4j's internal debug information.
+
 ```
 $ java -Dlog4j.debug=true com.mindprince.MyLogTest
 log4j: Trying to find [log4j.xml] using context classloader sun.misc.Launcher$AppClassLoader@1372a1a.
@@ -101,7 +107,8 @@ log4j: Finished configuring.
 ```
 
 To log messages to a file instead of the console use the following properties:
-{% codeblock /path/to/log4j-tofile.properties %}
+
+```
 # Root logger option
 log4j.rootLogger=DEBUG, file
 
@@ -113,14 +120,14 @@ log4j.appender.file.MaxFileSize=1MB
 log4j.appender.file.MaxBackupIndex=1
 log4j.appender.file.layout=org.apache.log4j.PatternLayout
 log4j.appender.file.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %c %x - %m%n
-{% endcodeblock %}
+```
 
 You can manually specify the location of your log4j properties file using `-Dlog4j.configuration`
+
 ```
 $ java -Dlog4j.configuration=file:/path/to/log4j-tofile.properties com.mindprince.MyLogTest
 
 $ cat /path/to/logging.log
-********************************************************************************
 2013-12-12 14:44:07 [main] DEBUG com.mindprince.MyLogTest  - Enter main method.
 2013-12-12 14:44:07 [main] DEBUG com.mindprince.FooBarBaz  - Enter foo method.
 2013-12-12 14:44:07 [main] INFO  com.mindprince.FooBarBaz  - This is information from foo.
@@ -132,11 +139,11 @@ $ cat /path/to/logging.log
 2013-12-12 14:44:07 [main] ERROR com.mindprince.FooBarBaz  - This error occurred in baz.
 2013-12-12 14:44:07 [main] DEBUG com.mindprince.FooBarBaz  - Exit baz method.
 2013-12-12 14:44:07 [main] DEBUG com.mindprince.MyLogTest  - Exit main method.
-********************************************************************************
 ```
 
 Sometimes it is useful to change the logging behaviour for particular classes:
-{% codeblock /path/to/log4j-selective.properties %}
+
+```
 # Root logger option
 log4j.rootLogger=DEBUG, stdout
 
@@ -147,7 +154,7 @@ log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p
 
 # Print only messages of level WARN or above for FooBarBaz
 log4j.logger.com.mindprince.FooBarBaz=WARN
-{% endcodeblock %}
+```
 
 ```
 $ java -Dlog4j.configuration=file:/path/to/log4j-selective.properties com.mindprince.MyLogTest
@@ -158,7 +165,8 @@ $ java -Dlog4j.configuration=file:/path/to/log4j-selective.properties com.mindpr
 ```
 
 I usually log everything to a file but only log important messages to the console:
-{% codeblock /path/to/log4j-both.properties %}
+
+```
 # Root logger option
 log4j.rootLogger=DEBUG, stdout, file
 
@@ -176,7 +184,7 @@ log4j.appender.file.MaxFileSize=1MB
 log4j.appender.file.MaxBackupIndex=1
 log4j.appender.file.layout=org.apache.log4j.PatternLayout
 log4j.appender.file.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %c %x - %m%n
-{% endcodeblock %}
+```
 
 ```
 $ java -Dlog4j.configuration=file:/path/to/log4j-both.properties com.mindprince.MyLogTest
@@ -184,7 +192,6 @@ $ java -Dlog4j.configuration=file:/path/to/log4j-both.properties com.mindprince.
 2013-12-12 15:10:31 [main] ERROR com.mindprince.FooBarBaz  - This error occurred in baz.
 
 $ cat /path/to/messages.log
-********************************************************************************
 2013-12-12 15:10:31 [main] DEBUG com.mindprince.MyLogTest  - Enter main method.
 2013-12-12 15:10:31 [main] DEBUG com.mindprince.FooBarBaz  - Enter foo method.
 2013-12-12 15:10:31 [main] INFO  com.mindprince.FooBarBaz  - This is information from foo.
@@ -196,5 +203,4 @@ $ cat /path/to/messages.log
 2013-12-12 15:10:31 [main] ERROR com.mindprince.FooBarBaz  - This error occurred in baz.
 2013-12-12 15:10:31 [main] DEBUG com.mindprince.FooBarBaz  - Exit baz method.
 2013-12-12 15:10:31 [main] DEBUG com.mindprince.MyLogTest  - Exit main method.
-********************************************************************************
 ```

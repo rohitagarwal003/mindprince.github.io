@@ -4,7 +4,7 @@ title: "Search twitter from command-line"
 date: 2013-06-06 20:55
 comments: true
 description: "Search twitter from command-line using their REST API v1.1."
-categories: [python, twitter]
+tags: [python, twitter]
 ---
 
 Recently, I started learning the Twitter API.
@@ -24,6 +24,7 @@ You will also need to create an access token for your account.
 After doing that you will get your `access_token_key` and `access_token_secret`.
 
 Fill these four values in `twitter_search.py` and you are good to go.
-{% codeblock lang:bash %}
+
+```bash
 $ python twitter_search.py SEARCH TERM(S)
-{% endcodeblock %}
+```
