@@ -1,0 +1,47 @@
+---
+layout: post
+title: "Opt-Out"
+description: "How to opt out of tracking by advertising networks, analytics services, and social platforms."
+date: 2013-08-19 04:40
+comments: true
+categories: [privacy]
+---
+
+##Online Behavioral Advertising
+A lot of advertisers are part of self-regulatory programs and let you opt-out from receiving interest-based advertising.
+The following tools let you find out which advertisers have enabled interest-based ads for your browser and opt-out from them.
+These tools use opt-out cookies to store your preferences in your browser.
+(Note that if you are running advertising blocking plugins, these tools may not work correctly.)
+
+[Digital Advertising Alliance (DAA) opt-out tool](http://www.aboutads.info/choices/)  
+[Network Advertising Initaitive (NAI) opt-out tool](http://www.networkadvertising.org/choices/)  
+[EDAA Your Online Choices opt-out tool](http://www.youronlinechoices.com/uk/your-ad-choices)
+
+Since the opt-out preferences are stored as cookies, deleting cookies will remove your opt-out preferences.
+You can use the following extensions to preserve the opt-out preferences you have set.
+
+[Protect My Choices browser extension](http://www.aboutads.info/PMC)  
+[Keep My Opt-Outs browser extension](https://code.google.com/p/chrome-opt-out-extension/)
+
+##Analytics
+Various analytics services provide ways to opt-out from getting tracked by them.
+The following are the opt-out pages of the major analytics providers:
+
+[Google Analytics Opt-out Browser Add-on](https://tools.google.com/dlpage/gaoptout) [1]  
+[Yahoo Web Analytics Opt-out](https://reports.web.analytics.yahoo.com/optout,OptOut.vm)  
+[KISSmetrics Opt-out](https://www.kissmetrics.com/user-privacy) [2]  
+[MixPanel Opt-out](https://mixpanel.com/optout/)  
+[Converto Opt-out](http://www.convertro.com/opt-out)  
+[Webtrends Opt-out](https://ondemand.webtrends.com/support/optout.asp)
+
+##All-in-one Browser Extensions
+The following extensions block tracking requests from analytics services, advertising networks and social networking sites.
+They are a more drastic measure for blocking tracking as they can break the functionality of some web pages.
+It is recommended that you use only one of these as they interfere with each other's working.
+
+[Disconnect](https://disconnect.me/)  
+[Ghostery](http://www.ghostery.com/)  
+[Abine DoNotTrackMe](http://abine.com/dntdetail.php)
+
+[1] This blog uses Google Analytics. I know.  
+[2] I like how the the opt-out page of KISSmetrics links to the opt-out pages of its competitors.
