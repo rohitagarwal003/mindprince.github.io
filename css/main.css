@@ -97,6 +97,12 @@ a:visited { color: #a0a; }
   border: 0;
 }
 
+.googleplus-hidden {
+  position:absolute;
+  top:-1000em;
+  left:-1000em
+}
+
 /*****************************************************************************/
 /*
 /* Posts
