@@ -81,15 +81,6 @@ a:visited { color: #a0a; }
   color: #000;
 }
 
-.header a.extra {
-  color: #aaa;
-  margin-left: 1em;
-}
-
-.header a.extra:hover {
-  color: #000;
-}
-
 .meta {
   color: #aaa;
 }
