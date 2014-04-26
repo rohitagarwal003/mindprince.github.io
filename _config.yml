@@ -2,3 +2,5 @@ name: "Rohit Agarwal's Notes"
 markdown: redcarpet
 pygments: true
 permalink: /:year/:month/:day/:title.html
+gems:
+  - jekyll-redirect-from
