@@ -87,13 +87,11 @@ a:visited { color: #a0a; }
   color: #8085C1;
 }
 
-.footer .rss {
-  margin-top: 1.1em;
-  margin-right: -.2em;
+.footer .atom {
   float: right;
 }
 
-.footer .rss img {
+.footer .atom img {
   border: 0;
 }
 

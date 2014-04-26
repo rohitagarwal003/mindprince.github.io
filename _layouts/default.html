@@ -14,6 +14,9 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
 
+        <!-- Atom Feed -->
+        <link rel="alternate" href="/atom.xml" title="Rohit Agarwal's Notes" type="application/atom+xml">
+
     </head>
     <body>
 
@@ -26,11 +29,18 @@
 
           <div class="footer">
             <div class="contact">
-              <p>Copyright &copy; 2014 - <a href="/about.html">Rohit Agarwal</a></p>
+              <p>Copyright &copy; {{ site.time | date: '%Y' }} - <a href="/about.html">Rohit Agarwal</a></p>
             </div>
             <div class="contact">
               <p><a class="googleplus-hidden" href="https://plus.google.com/110953348444823955475?rel=author">Google+</a></p>
             </div>
+            <div class="atom">
+              <p>
+              <a href="/atom.xml" type="application/atom+xml">
+              <img src="/images/atom.png" alt="Subscribe via Atom Feed" title="Subscrive via Atom Feed"/>
+              </a>
+              </p>
+            </div> 
           </div>
         </div>
 
