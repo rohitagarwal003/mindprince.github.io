@@ -14,6 +14,9 @@ redirect_from: "/archives/index.html"
       <li>
         <div class="post-date">{{ post.date | date_to_string }}</div>
         <a href="{{ post.url }}">{{ post.title }}</a>
+        {% if post.external-url %}
+            <a href="{{ post.external-url }}">&#8594;</a>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>
