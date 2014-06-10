@@ -28,12 +28,12 @@ a:visited { color: #a0a; }
 }
 
 .posts li {
-  line-height: 1.75em;
+  line-height: 1.25em;
+  margin-bottom: 1em;
 }
 
-.posts span {
+.posts .post-date {
   color: #aaa;
-  font-family: Monaco, "Courier New", monospace;
   font-size: 80%;
 }
 
