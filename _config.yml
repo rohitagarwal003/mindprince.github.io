@@ -1,6 +1,6 @@
 name: "Rohit Agarwal's Notes"
 markdown: redcarpet
-pygments: true
+highlighter: pygments
 permalink: /:year/:month/:day/:title.html
 url: http://notes.mindprince.in
 gems:
