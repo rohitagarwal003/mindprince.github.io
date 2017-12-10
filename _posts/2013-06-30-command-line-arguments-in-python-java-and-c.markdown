@@ -17,7 +17,6 @@ import sys
 for arg in sys.argv:
     # do something with the argument
     print arg
-
 ```
 
 ```console
